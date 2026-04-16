@@ -1,0 +1,39 @@
+<div class="min-h-screen bg-white text-[#202124]">
+  <header class="px-4 pt-5 sm:px-8">
+    <nav class="mx-auto flex w-full max-w-6xl items-center justify-end gap-5 text-sm text-[#3c4043]">
+      
+    
+    </nav>
+  </header>
+
+  <main>
+    <section class="mx-auto flex min-h-[72vh] w-full max-w-6xl flex-col items-center justify-center px-4 text-center sm:px-8">
+      <h1 class="google-word text-5xl font-semibold sm:text-7xl">
+        <span class="g-blue">A</span><span class="g-red">n</span><span class="g-yellow">t</span><span class="g-blue">o</span
+        ><span class="g-green">n</span><span class="g-red">i</span><span class="g-yellow">o</span>
+      </h1>
+      <p class="mt-2 text-sm text-[#5f6368] sm:text-base">Full Stack Developer</p>
+
+      <div class="mt-7 w-full max-w-2xl">
+        <div class="flex items-center rounded-full border border-[#dfe1e5] bg-white px-4 py-3 shadow-sm transition hover:shadow-md">
+          <svg class="h-5 w-5 text-[#9aa0a6]" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M11 18a7 7 0 1 1 4.95-2.05L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+          <input
+            type="text"
+            value="Antonio Morales portfolio developer"
+            class="w-full border-0 bg-transparent px-3 text-sm text-[#202124] outline-none sm:text-base"
+            aria-label="Busqueda principal"
+            readonly
+          />
+        </div>
+
+        <div class="mt-6 flex flex-wrap items-center justify-center gap-3">
+          <a [routerLink]="['/resultados']" [queryParams]="{ tab: 'Todo' }" class="search-btn">Buscar con Google</a>
+          
+          <a href="/Antonio_Morales_CV.pdf" download class="search-btn">Voy a tener suerte</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>

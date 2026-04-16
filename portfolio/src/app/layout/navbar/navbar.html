@@ -1,0 +1,38 @@
+﻿<header class="sticky top-0 z-40 border-b border-zinc-800 bg-black/85 backdrop-blur">
+  <nav class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8" aria-label="Principal">
+    <a href="#home" class="font-['Space_Grotesk'] text-lg font-bold tracking-tight text-zinc-100 transition hover:text-amber-400">Antonio Morales</a>
+
+    <button
+      type="button"
+      class="rounded-lg border border-zinc-700 p-2 text-zinc-100 transition hover:border-amber-400 hover:text-amber-400 md:hidden"
+      (click)="toggleMenu()"
+      aria-label="Abrir menu"
+    >
+      <span class="block h-0.5 w-5 bg-current"></span>
+      <span class="mt-1.5 block h-0.5 w-5 bg-current"></span>
+      <span class="mt-1.5 block h-0.5 w-5 bg-current"></span>
+    </button>
+
+    <ul class="hidden items-center gap-6 md:flex">
+      @for (link of links; track link.label) {
+        <li>
+          <a class="text-sm font-semibold text-zinc-300 transition hover:text-amber-400" [href]="link.href">{{ link.label }}</a>
+        </li>
+      }
+    </ul>
+  </nav>
+
+  @if (isOpen()) {
+    <div class="border-t border-zinc-800 bg-zinc-950 px-4 py-3 md:hidden">
+      <ul class="grid gap-3">
+        @for (link of links; track link.label) {
+          <li>
+            <a class="block rounded-lg px-2 py-2 text-sm font-medium text-zinc-300 transition hover:bg-zinc-900 hover:text-amber-400" [href]="link.href" (click)="closeMenu()">
+              {{ link.label }}
+            </a>
+          </li>
+        }
+      </ul>
+    </div>
+  }
+</header>

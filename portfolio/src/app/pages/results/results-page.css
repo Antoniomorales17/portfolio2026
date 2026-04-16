@@ -1,0 +1,39 @@
+.google-word {
+  font-family: 'Roboto', Arial, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.g-blue {
+  color: #4285f4;
+}
+
+.g-red {
+  color: #db4437;
+}
+
+.g-yellow {
+  color: #f4b400;
+}
+
+.g-green {
+  color: #0f9d58;
+}
+
+.tab-button {
+  border: 1px solid transparent;
+  border-radius: 9999px;
+  padding: 0.25rem 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.tab-button:hover {
+  border-color: #d2e3fc;
+  background: #f6fafe;
+  color: #1a73e8;
+}
+
+.tab-button-active {
+  border-color: #d2e3fc;
+  background: #e8f0fe;
+  color: #1a73e8;
+}

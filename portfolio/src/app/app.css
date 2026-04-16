@@ -1,0 +1,38 @@
+﻿
+.google-word {
+  font-family: 'Roboto', Arial, sans-serif;
+  letter-spacing: -0.02em;
+}
+.g-blue {
+  color: #4285f4;
+}
+
+.g-red {
+  color: #db4437;
+}
+
+.g-yellow {
+  color: #f4b400;
+}
+
+.g-green {
+  color: #0f9d58;
+}
+
+.search-btn {
+  border: 1px solid #f1f3f4;
+  border-radius: 0.375rem;
+  background: #f8f9fa;
+  color: #3c4043;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.625rem 1rem;
+  text-decoration: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+}
+
+.search-btn:hover {
+  border-color: #dadce0;
+  box-shadow: 0 1px 2px rgba(60, 64, 67, 0.15);
+  color: #202124;
+}

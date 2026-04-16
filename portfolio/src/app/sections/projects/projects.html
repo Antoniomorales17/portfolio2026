@@ -1,0 +1,18 @@
+﻿<section id="proyectos" class="border-b border-zinc-800 py-16">
+  <p class="text-sm font-semibold uppercase tracking-wider text-amber-300">Proyectos</p>
+  <h2 class="mt-2 text-3xl font-bold text-zinc-100">Seleccion de trabajos</h2>
+
+  <div class="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+    @for (project of projects; track project.name) {
+      <article class="rounded-2xl border border-zinc-700 bg-zinc-950 p-5 shadow-sm shadow-black/30">
+        <p class="text-xs font-semibold uppercase tracking-wide text-amber-300">{{ project.type }}</p>
+        <h3 class="mt-2 text-lg font-bold text-zinc-100">{{ project.name }}</h3>
+        <p class="mt-2 text-sm text-zinc-300">{{ project.stack }}</p>
+        <div class="mt-4 flex gap-2">
+          <a href="#" class="rounded-lg border border-zinc-600 px-3 py-1.5 text-xs font-semibold text-zinc-200 transition hover:border-amber-400 hover:text-amber-300">GitHub</a>
+          <a href="#" class="rounded-lg border border-amber-300/60 bg-amber-400 px-3 py-1.5 text-xs font-semibold text-zinc-950 transition hover:bg-amber-300">Demo</a>
+        </div>
+      </article>
+    }
+  </div>
+</section>

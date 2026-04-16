@@ -1,0 +1,10 @@
+﻿<section id="tecnologias" class="border-b border-zinc-800 py-16">
+  <p class="text-sm font-semibold uppercase tracking-wider text-amber-300">Tecnologias</p>
+  <h2 class="mt-2 text-3xl font-bold text-zinc-100">Herramientas con las que trabajo</h2>
+
+  <div class="mt-6 flex flex-wrap gap-3">
+    @for (tech of technologies; track tech) {
+      <span class="rounded-full border border-zinc-700 bg-zinc-950 px-4 py-2 text-sm font-semibold text-zinc-200">{{ tech }}</span>
+    }
+  </div>
+</section>
