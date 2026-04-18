@@ -1,5 +1,5 @@
 {
-  "outputDirectory": "dist/portfolio/browser",
+  "outputDirectory": "dist/browser",
   "rewrites": [
     {
       "source": "/(.*)",
