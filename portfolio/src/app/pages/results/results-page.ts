@@ -3,14 +3,21 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 type ResultTab = 'Todo' | 'Experiencia' | 'Formacion' | 'Skills' | 'Proyectos' | 'Contacto';
 
+interface ResultAction {
+  label: string;
+  href: string;
+  download?: boolean;
+}
+
 interface SearchResult {
   title: string;
-  url: string;
+  displayUrl: string;
   snippet: string;
   tab: Exclude<ResultTab, 'Todo'>;
   meta?: string;
+  href?: string;
   details?: string[];
-  links?: ActionLink[];
+  actions?: ResultAction[];
 }
 
 interface ActionLink {
@@ -29,144 +36,143 @@ export class ResultsPage implements OnInit {
   activeTab: ResultTab = 'Todo';
 
   readonly profileSummary =
-    'Desarrollador Full Stack con enfoque en Front-End (Angular, HTML, CSS/Tailwind) y diseno web. Experiencia en migraciones de versiones y gestion de CMS (WordPress), complementado con conocimientos en Back-End (Java, Python, Firebase).';
+    'Desarrollador Full Stack Junior con enfoque en Front-End (Angular, TypeScript y Tailwind), experiencia real en producto y base solida en Java, Python y servicios cloud.';
 
   readonly navTabs: ResultTab[] = ['Todo', 'Experiencia', 'Formacion', 'Skills', 'Proyectos', 'Contacto'];
 
   readonly searchResults: SearchResult[] = [
     {
       title: 'Copyfly | Desarrollador FullStack',
-      url: 'antoniomorales.dev/experiencia/copyfly',
+      displayUrl: 'portfolio > experiencia > copyfly',
       meta: 'Almeria, Espana | Marzo 2025 - Abril 2026',
       snippet:
         'Desarrollo y maquetacion web con Angular y Tailwind, gestion de datos en Firebase y Elasticsearch, optimizacion continua y mantenimiento de CMS.',
       tab: 'Experiencia',
       details: [
         'Desarrollo y maquetacion web con HTML, CSS (Tailwind) y Angular para interfaces responsive.',
-        'Gestion avanzada de datos en Back-End con Firebase y consultas complejas en Elasticsearch.',
-        'Mantenimiento evolutivo y optimizacion de rendimiento con nuevas features y resolucion de bugs.',
+        'Gestion de datos en Back-End con Firebase y consultas en Elasticsearch.',
+        'Mantenimiento evolutivo y optimizacion de rendimiento con nuevas funcionalidades.',
         'Integracion, configuracion y mantenimiento de contenidos en WordPress.',
       ],
     },
     {
       title: 'Softteck | Desarrollador FullStack',
-      url: 'antoniomorales.dev/experiencia/softteck',
+      displayUrl: 'portfolio > experiencia > softteck',
       meta: 'Cordoba, Espana | Noviembre 2024 - Marzo 2025',
-      snippet:
-        'Participacion en proyecto para Banco Santander trabajando con Angular y Java, incluyendo calidad de codigo y pruebas unitarias.',
+      snippet: 'Participacion en proyecto para Banco Santander trabajando con Angular y Java, incluyendo calidad de codigo y pruebas unitarias.',
       tab: 'Experiencia',
       details: [
-        'Apoyo y colaboracion en un proyecto de Banco Santander con Angular y Java.',
+        'Colaboracion en proyecto de Banco Santander con Angular y Java.',
         'Revision de codigo para mantener estandares de calidad y buenas practicas.',
-        'Implementacion de pruebas y test unitarios con Jasmine y Karma.',
+        'Implementacion de pruebas unitarias con Jasmine y Karma.',
       ],
     },
     {
       title: 'Amvos Digital | E-commerce Manager',
-      url: 'antoniomorales.dev/experiencia/amvos-digital',
+      displayUrl: 'portfolio > experiencia > amvos-digital',
       meta: '2021',
-      snippet:
-        'Analisis en profundidad de mercados B2C y B2B para detectar oportunidades de crecimiento y mejora en negocio digital.',
+      snippet: 'Analisis en profundidad de mercados B2C y B2B para detectar oportunidades de crecimiento y mejora en negocio digital.',
       tab: 'Experiencia',
-      details: ['Analisis de mercados B2C y B2B, identificando oportunidades de crecimiento y areas de mejora.'],
+      details: ['Analisis de mercados B2C y B2B identificando oportunidades de crecimiento y mejoras.'],
     },
     {
       title: 'Ayuntamiento de Almeria | Tecnico Superior en Investigacion de Mercados',
-      url: 'antoniomorales.dev/experiencia/ayuntamiento-almeria',
+      displayUrl: 'portfolio > experiencia > ayuntamiento-almeria',
       meta: '2018',
-      snippet:
-        'Participacion en proyecto integral de estudio de mercado turistico local, analisis de competencia y tendencias.',
+      snippet: 'Participacion en estudio de mercado turistico local con analisis de competencia y tendencias.',
       tab: 'Experiencia',
-      details: [
-        'Proyecto de estudio del mercado de turoperadores en la ciudad.',
-        'Analisis de competencia y tendencias del mercado turistico local.',
-      ],
+      details: ['Proyecto de estudio del mercado de turoperadores en la ciudad.', 'Analisis de competencia y tendencias del mercado turistico local.'],
     },
     {
       title: 'Universitat Oberta de Catalunya (UOC) | Grado en Ciencia de Datos',
-      url: 'antoniomorales.dev/formacion/uoc-ciencia-de-datos',
+      displayUrl: 'portfolio > formacion > uoc-ciencia-de-datos',
       meta: 'Barcelona, Espana | Cursando',
       snippet: 'Formacion universitaria actual orientada al analisis de datos, modelado y tecnologia aplicada a negocio.',
       tab: 'Formacion',
     },
     {
       title: 'HACK A BOSS | Java / Spring Boot',
-      url: 'antoniomorales.dev/formacion/hack-a-boss',
+      displayUrl: 'portfolio > formacion > hack-a-boss',
       meta: 'Online, Espana | 2024',
       snippet: 'Especializacion tecnica en desarrollo de aplicaciones Java y arquitectura backend con Spring Boot.',
       tab: 'Formacion',
     },
     {
       title: '4Geeks Academy | Full Stack Developer',
-      url: 'antoniomorales.dev/formacion/4geeks',
+      displayUrl: 'portfolio > formacion > 4geeks',
       meta: 'Online, Espana | 2023',
       snippet: 'Programa intensivo full stack con foco en desarrollo de aplicaciones web modernas.',
       tab: 'Formacion',
     },
     {
       title: 'Universidad de La Rioja (UNIR) | Master en E-Commerce',
-      url: 'antoniomorales.dev/formacion/unir-ecommerce',
+      displayUrl: 'portfolio > formacion > unir-ecommerce',
       meta: 'Online, Espana | 2022',
       snippet: 'Formacion avanzada en comercio electronico, estrategia digital y gestion de canales online.',
       tab: 'Formacion',
     },
     {
       title: 'Universidad de Almeria | Grado en Marketing e Investigacion de Mercados',
-      url: 'antoniomorales.dev/formacion/ual-marketing',
+      displayUrl: 'portfolio > formacion > ual-marketing',
       meta: 'Almeria, Espana | 2015',
       snippet: 'Base academica en marketing, investigacion de mercados y analisis de comportamiento del consumidor.',
       tab: 'Formacion',
     },
     {
       title: 'Stack tecnico y herramientas',
-      url: 'antoniomorales.dev/skills',
-      snippet: 'Angular, TypeScript, JavaScript, Java, Spring, Python, Firebase, Tailwind, WordPress, Elasticsearch.',
+      displayUrl: 'portfolio > skills',
+      snippet: 'Angular, TypeScript, JavaScript, Java, Spring Boot, Python, Firebase, Tailwind, WordPress y Elasticsearch.',
       tab: 'Skills',
+      details: [
+        'Frontend: Angular, TypeScript, JavaScript, HTML5, CSS3, Tailwind.',
+        'Backend: Java, Spring Boot, Python y APIs REST.',
+        'Datos y herramientas: PostgreSQL, Firebase, Elasticsearch, Git y GitHub.',
+      ],
     },
     {
       title: 'Cabo Indalo (Proyecto principal)',
-      url: 'https://www.caboindalo.es/es',
+      displayUrl: 'www.caboindalo.es/es',
+      href: 'https://www.caboindalo.es/es',
       meta: 'Proyecto destacado | Produccion',
       snippet: 'Proyecto principal en produccion orientado a presencia digital y experiencia web.',
       tab: 'Proyectos',
-      links: [
-        { label: 'Web', href: 'https://www.caboindalo.es/es' },
+      actions: [
+        { label: 'Ver web', href: 'https://www.caboindalo.es/es' },
         { label: 'GitHub', href: 'https://github.com/Antoniomorales17/cabo-indalo' },
       ],
     },
     {
       title: 'Kdabra',
-      url: 'antoniomorales.dev/proyectos/kdabra',
+      displayUrl: 'portfolio > proyectos > kdabra',
       meta: 'Noviembre 2024 - Actualidad | Asociado con Softteck',
-      snippet: 'SPA en Angular 19 que simula una tienda basica, con despliegue en Netlify.',
+      snippet: 'SPA en Angular 19 que simula una tienda basica con despliegue en Netlify.',
       tab: 'Proyectos',
-      details: ['Stack: Angular 19, frontend web.', 'Repositorio en GitHub.', 'Deploy en Netlify.'],
+      details: ['Stack: Angular 19 y frontend web.', 'Despliegue en Netlify.', 'Demo detallada disponible bajo solicitud.'],
     },
     {
       title: 'Santander App FullStack',
-      url: 'antoniomorales.dev/proyectos/santander',
+      displayUrl: 'portfolio > proyectos > santander-app-fullstack',
       meta: 'Enero 2025 - Febrero 2025 | Asociado con Softteck',
       snippet: 'Aplicacion fullstack inspirada en Banco Santander con backend Spring Boot y frontend Angular.',
       tab: 'Proyectos',
       details: [
-        'Frontend: Angular, TypeScript, HTML, CSS, Angular Material, Tailwind.',
-        'Backend: Spring Boot, Java, Maven.',
+        'Frontend: Angular, TypeScript, HTML, CSS, Angular Material y Tailwind.',
+        'Backend: Spring Boot, Java y Maven.',
         'Base de datos: PostgreSQL.',
         'Seguridad: JWT y CORS.',
-        'Despliegue: Vercel (frontend) y servidor dedicado (backend).',
       ],
     },
     {
       title: 'Little Lemon',
-      url: 'antoniomorales.dev/proyectos/little-lemon',
+      displayUrl: 'portfolio > proyectos > little-lemon',
       meta: 'Mayo 2024',
       snippet: 'Proyecto final de Meta Front-End: app de reservas con React y consumo de APIs.',
       tab: 'Proyectos',
-      details: ['Repositorio disponible.', 'Demo disponible.'],
+      details: ['Proyecto academico con foco en React y experiencia de usuario.'],
     },
     {
       title: 'WebMentor',
-      url: 'antoniomorales.dev/proyectos/webmentor',
+      displayUrl: 'portfolio > proyectos > webmentor',
       meta: 'Marzo 2024 - Mayo 2024',
       snippet: 'Prototipo de formacion digital para personas mayores, enfocado en UX con Figma.',
       tab: 'Proyectos',
@@ -174,7 +180,7 @@ export class ResultsPage implements OnInit {
     },
     {
       title: 'Gourmet Express',
-      url: 'antoniomorales.dev/proyectos/gourmet-express',
+      displayUrl: 'portfolio > proyectos > gourmet-express',
       meta: 'Octubre 2023 - Enero 2024',
       snippet: 'Prototipo de app de comida de lujo a domicilio trabajado desde enfoque UX y negocio.',
       tab: 'Proyectos',
@@ -182,31 +188,31 @@ export class ResultsPage implements OnInit {
     },
     {
       title: 'Philosophy-App',
-      url: 'antoniomorales.dev/proyectos/philosophy-app',
+      displayUrl: 'portfolio > proyectos > philosophy-app',
       meta: 'Noviembre 2023 - Diciembre 2023',
       snippet: 'Aplicacion React para explorar contenido filosofico con foco en UX y responsive design.',
       tab: 'Proyectos',
-      details: ['Demo disponible.', 'Repositorio disponible.'],
+      details: ['Aplicacion React responsive con enfoque en arquitectura de componentes.'],
     },
     {
       title: 'finDeveloper',
-      url: 'antoniomorales.dev/proyectos/findeveloper',
+      displayUrl: 'portfolio > proyectos > findeveloper',
       meta: 'Noviembre 2023',
       snippet: 'Plataforma web para facilitar la busqueda y contacto directo con desarrolladores.',
       tab: 'Proyectos',
-      details: ['Demo disponible.', 'Repositorio disponible.'],
+      details: ['Proyecto orientado a matching entre talento tecnico y necesidades reales de negocio.'],
     },
     {
       title: 'Blog Personal',
-      url: 'antoniomorales.dev/proyectos/blog-personal',
+      displayUrl: 'portfolio > proyectos > blog-personal',
       meta: 'Octubre 2023',
       snippet: 'Blog de aprendizaje en programacion junior construido con HTML, CSS, JavaScript y React.',
       tab: 'Proyectos',
-      details: ['Demo disponible.', 'Repositorio disponible.', 'Roadmap futuro con Node.js, Express y MongoDB.'],
+      details: ['Roadmap futuro con Node.js, Express y MongoDB.'],
     },
     {
       title: 'lavidadeunjunior',
-      url: 'antoniomorales.dev/proyectos/lavidadeunjunior',
+      displayUrl: 'portfolio > proyectos > lavidadeunjunior',
       meta: 'Octubre 2023',
       snippet: 'Blog personal en WordPress para compartir experiencia y aprendizaje del mundo digital.',
       tab: 'Proyectos',
@@ -214,31 +220,31 @@ export class ResultsPage implements OnInit {
     },
     {
       title: 'Gif & Photo Search',
-      url: 'antoniomorales.dev/proyectos/gif-photo-search',
+      displayUrl: 'portfolio > proyectos > gif-photo-search',
       meta: 'Septiembre 2023',
       snippet: 'Aplicacion web para buscar y descargar GIFs y fotos desde Giphy y Pixabay.',
       tab: 'Proyectos',
-      details: ['Busqueda por palabra clave.', 'Vista ampliada y descarga de contenido.', 'Demo y repositorio disponibles.'],
+      details: ['Busqueda por palabra clave.', 'Vista ampliada y descarga de contenido.'],
     },
     {
       title: 'NonoStore',
-      url: 'antoniomorales.dev/proyectos/nonostore',
+      displayUrl: 'portfolio > proyectos > nonostore',
       meta: 'Septiembre 2023',
       snippet: 'Tienda de ropa online en version estatica con enfoque en estructura y presentacion de catalogo.',
       tab: 'Proyectos',
-      details: ['Demo disponible.', 'Repositorio disponible.'],
+      details: ['Proyecto frontend orientado a maquetacion y estructura de catalogo.'],
     },
     {
       title: 'QuizGames',
-      url: 'antoniomorales.dev/proyectos/quizgames',
+      displayUrl: 'portfolio > proyectos > quizgames',
       meta: 'Septiembre 2023',
       snippet: 'Quiz retro de videojuegos desarrollado en React con progreso y puntuacion.',
       tab: 'Proyectos',
-      details: ['Preguntas desafiantes retro.', 'UI amigable.', 'Demo y repositorio disponibles.'],
+      details: ['Preguntas retro, progreso de usuario y gestion de puntuacion.'],
     },
     {
       title: 'Wizz-Mail',
-      url: 'antoniomorales.dev/proyectos/wizz-mail',
+      displayUrl: 'portfolio > proyectos > wizz-mail',
       meta: 'Julio 2023 - Agosto 2023 | Asociado con 4Geeks Academy Espana',
       snippet: 'App para gestion de tickets con IA, respuestas inteligentes en tiempo real y flujo 24/7.',
       tab: 'Proyectos',
@@ -247,18 +253,18 @@ export class ResultsPage implements OnInit {
         'Backend: Python y Flask.',
         'Base de datos: PostgreSQL.',
         'Integracion con API de OpenAI para respuesta automatizada en vivo.',
-        'Demo y repositorio disponibles.',
       ],
     },
-    
     {
       title: 'Contacto profesional',
-      url: 'antoniomorales.dev/contacto',
+      displayUrl: 'portfolio > contacto',
       snippet: 'Disponible para colaboraciones freelance, roles junior y proyectos remotos. Respuesta rapida por email y LinkedIn.',
       tab: 'Contacto',
-      links: [
-        { label: 'Email', href: 'mailto:antonio@example.com' },
+      actions: [
+        { label: 'Email', href: 'mailto:antoniomora.gimenez@gmail.com' },
+        { label: 'Telefono', href: 'tel:+34647664536' },
         { label: 'LinkedIn', href: 'https://www.linkedin.com/in/antoniomoralesgimenez/' },
+        { label: 'GitHub', href: 'https://github.com/Antoniomorales17' },
       ],
     },
   ];
@@ -266,17 +272,26 @@ export class ResultsPage implements OnInit {
   readonly quickActions: ActionLink[] = [
     { label: 'Ver CV', href: '/Antonio_Morales_CV.pdf' },
     { label: 'Descargar CV', href: '/Antonio_Morales_CV.pdf', download: true },
+    { label: 'Email directo', href: 'mailto:antoniomora.gimenez@gmail.com' },
+    { label: 'Llamar', href: 'tel:+34647664536' },
     { label: 'GitHub', href: 'https://github.com/Antoniomorales17' },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/antoniomoralesgimenez/' },
-    { label: 'Contactar', href: 'mailto:antonio@example.com' },
   ];
 
-  readonly highlights = [
-    'Email: antoniomora.gimenez@gmail.com',
-    'Teléfono: 647 66 45 36',
-    'Ciudad: Almería',
-    'Especialidad: Frontend / Full Stack Junior',
+  readonly topRightActions: ActionLink[] = [
+    { label: 'GitHub', href: 'https://github.com/Antoniomorales17' },
+    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/antoniomoralesgimenez/' },
+    { label: 'CV', href: '/Antonio_Morales_CV.pdf' },
   ];
+
+  readonly highlights: { label: string; value: string; href?: string }[] = [
+    { label: 'Email', value: 'antoniomora.gimenez@gmail.com', href: 'mailto:antoniomora.gimenez@gmail.com' },
+    { label: 'Telefono', value: '647 66 45 36', href: 'tel:+34647664536' },
+    { label: 'Ciudad', value: 'Almeria' },
+    { label: 'Especialidad', value: 'Frontend / Full Stack Junior' },
+  ];
+
+  readonly expertiseAreas = ['Experiencia', 'Formacion', 'Skills', 'Proyectos'];
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -286,11 +301,7 @@ export class ResultsPage implements OnInit {
   ngOnInit(): void {
     this.route.queryParamMap.subscribe((params) => {
       const tabParam = params.get('tab');
-      if (this.isValidTab(tabParam)) {
-        this.activeTab = tabParam;
-      } else {
-        this.activeTab = 'Todo';
-      }
+      this.activeTab = this.isValidTab(tabParam) ? tabParam : 'Todo';
     });
   }
 
@@ -314,11 +325,15 @@ export class ResultsPage implements OnInit {
     return this.activeTab === tab;
   }
 
-  getResultHref(url: string): string {
-    if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('mailto:') || url.startsWith('/')) {
-      return url;
+  getResultHref(href: string): string {
+    if (href.startsWith('http://') || href.startsWith('https://') || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('/')) {
+      return href;
     }
-    return `https://${url}`;
+    return `https://${href}`;
+  }
+
+  isExternalLink(href: string): boolean {
+    return href.startsWith('http://') || href.startsWith('https://');
   }
 
   private isValidTab(value: string | null): value is ResultTab {

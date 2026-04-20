@@ -22,7 +22,7 @@
 .tab-button {
   border: 1px solid transparent;
   border-radius: 9999px;
-  padding: 0.25rem 0.75rem;
+  padding: 0.35rem 0.9rem;
   transition: all 0.2s ease;
 }
 
@@ -30,6 +30,11 @@
   border-color: #d2e3fc;
   background: #f6fafe;
   color: #1a73e8;
+}
+
+.tab-button:focus-visible {
+  outline: 2px solid #1a73e8;
+  outline-offset: 2px;
 }
 
 .tab-button-active {

@@ -1,16 +1,24 @@
 <div class="min-h-screen bg-white text-[#202124]">
   <header class="px-4 pt-5 sm:px-8">
-    <nav class="mx-auto flex w-full max-w-6xl items-center justify-end gap-5 text-sm text-[#3c4043]">
-      
-    
+    <nav class="mx-auto flex w-full max-w-6xl items-center justify-end gap-3 text-sm text-[#3c4043]" aria-label="Enlaces de perfil">
+      @for (item of headerLinks; track item.label) {
+        <a
+          [href]="item.href"
+          [attr.target]="item.external ? '_blank' : null"
+          [attr.rel]="item.external ? 'noopener noreferrer' : null"
+          [attr.download]="item.download ? '' : null"
+          class="top-link"
+        >
+          {{ item.label }}
+        </a>
+      }
     </nav>
   </header>
 
   <main>
     <section class="mx-auto flex min-h-[72vh] w-full max-w-6xl flex-col items-center justify-center px-4 text-center sm:px-8">
-      <h1 class="google-word text-5xl font-semibold sm:text-7xl">
-        <span class="g-blue">A</span><span class="g-red">n</span><span class="g-yellow">t</span><span class="g-blue">o</span
-        ><span class="g-green">n</span><span class="g-red">i</span><span class="g-yellow">o</span>
+      <h1 class="google-word text-5xl font-semibold sm:text-7xl" aria-label="Antonio">
+        <span class="g-blue">A</span><span class="g-red">n</span><span class="g-yellow">t</span><span class="g-blue">o</span><span class="g-green">n</span><span class="g-red">i</span><span class="g-yellow">o</span>
       </h1>
       <p class="mt-2 text-sm text-[#5f6368] sm:text-base">Full Stack Developer</p>
 
@@ -30,10 +38,13 @@
 
         <div class="mt-6 flex flex-wrap items-center justify-center gap-3">
           <a [routerLink]="['/resultados']" [queryParams]="{ tab: 'Todo' }" class="search-btn">Buscar con Google</a>
-          
-          <a href="/Antonio_Morales_CV.pdf" download class="search-btn">Voy a tener suerte</a>
+          <a href="mailto:antoniomora.gimenez@gmail.com" class="search-btn">Contactar</a>
         </div>
       </div>
     </section>
   </main>
+
+  <footer class="border-t border-[#eceff1] px-4 py-5 text-center text-xs text-[#5f6368] sm:px-8 sm:text-sm">
+    <p>Portfolio construido con Angular y Tailwind. Disenado para una navegacion rapida y clara.</p>
+  </footer>
 </div>

@@ -1,65 +1,85 @@
-<div class="min-h-screen bg-white px-4 py-8 text-[#202124] sm:px-8">
-  <section class="mx-auto w-full max-w-6xl  bg-white shadow-sm">
-    <div class="border-b border-[#eceff1] px-4 py-3 sm:px-6">
-      <div class="flex flex-wrap items-center gap-2 sm:gap-4">
-        <a [routerLink]="['/']" class="google-word border-0 bg-transparent p-0 text-2xl font-semibold">
-          <span class="g-blue">A</span><span class="g-red">n</span><span class="g-yellow">t</span><span class="g-blue">o</span
-          ><span class="g-green">n</span><span class="g-red">i</span><span class="g-yellow">o</span>
+<div class="min-h-screen bg-white px-4 py-6 text-[#202124] sm:px-8">
+  <section class="mx-auto w-full max-w-6xl rounded-xl border border-[#eceff1] bg-white shadow-sm">
+    <header class="border-b border-[#eceff1] px-4 py-3 sm:px-6">
+      <div class="flex flex-wrap items-center gap-3">
+        <a [routerLink]="['/']" class="google-word border-0 bg-transparent p-0 text-2xl font-semibold" aria-label="Volver al inicio">
+          <span class="g-blue">A</span><span class="g-red">n</span><span class="g-yellow">t</span><span class="g-blue">o</span><span class="g-green">n</span><span class="g-red">i</span><span class="g-yellow">o</span>
         </a>
-        <div class="flex min-w-[240px] flex-1 items-center rounded-xl border border-[#dfe1e5] px-3 py-2">
-          <span class="text-xs text-[#5f6368] sm:text-sm">Google Resume Portfolio</span>
+
+        <div class="flex min-w-[220px] flex-1 items-center rounded-full border border-[#dfe1e5] px-4 py-2.5">
+          <svg class="h-4 w-4 text-[#9aa0a6]" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M11 18a7 7 0 1 1 4.95-2.05L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+          <span class="ml-3 text-xs text-[#5f6368] sm:text-sm">Antonio Morales portfolio</span>
         </div>
-        
+
+        <div class="ml-auto flex items-center gap-2 text-xs sm:text-sm">
+          @for (item of topRightActions; track item.label) {
+            <a
+              [href]="item.href"
+              [attr.download]="item.download ? '' : null"
+              [attr.target]="isExternalLink(item.href) ? '_blank' : null"
+              [attr.rel]="isExternalLink(item.href) ? 'noopener noreferrer' : null"
+              class="rounded-full border border-[#dadce0] px-3 py-1.5 text-[#3c4043] transition hover:border-[#1a73e8] hover:text-[#1a73e8]"
+            >
+              {{ item.label }}
+            </a>
+          }
+        </div>
       </div>
 
-      <div class="mt-4 flex flex-wrap gap-3 text-xs text-[#5f6368] sm:text-sm">
+      <nav class="mt-4 flex flex-wrap gap-2 text-xs text-[#5f6368] sm:text-sm" aria-label="Filtros del portfolio">
         @for (tab of navTabs; track tab) {
-          <button
-            type="button"
-            class="tab-button"
-            [class.tab-button-active]="isTabActive(tab)"
-            (click)="selectTab(tab)"
-          >
+          <button type="button" class="tab-button" [class.tab-button-active]="isTabActive(tab)" (click)="selectTab(tab)">
             {{ tab }}
           </button>
         }
-      </div>
-    </div>
+      </nav>
+    </header>
 
-      <div class="grid gap-6 p-4 sm:p-6 lg:grid-cols-[minmax(0,1.45fr)_minmax(280px,0.85fr)]">
-      <div class="space-y-5">
-        <p class="text-xs text-[#5f6368] sm:text-sm">Aproximadamente {{ filteredResults.length }} resultados (0.21 segundos)</p>
+    <div class="grid gap-6 p-4 sm:p-6 lg:grid-cols-[minmax(0,1.5fr)_minmax(300px,0.8fr)]">
+      <main class="space-y-5" aria-live="polite">
+        <p class="text-xs text-[#5f6368] sm:text-sm">Aproximadamente {{ filteredResults.length }} resultados (0.24 segundos)</p>
 
         <article class="rounded-lg border border-[#e8eaed] bg-[#f8f9fa] p-4">
-          <p class="text-xs text-[#5f6368] sm:text-sm">Descripcion principal</p>
+          <p class="text-xs font-medium text-[#5f6368] sm:text-sm">Descripcion principal</p>
           <p class="mt-2 text-sm leading-relaxed text-[#4d5156]">{{ profileSummary }}</p>
         </article>
 
         @for (result of filteredResults; track result.title) {
-          <article>
-            <a [href]="getResultHref(result.url)" target="_blank" rel="noopener noreferrer" class="text-xs text-[#188038] hover:underline sm:text-sm">{{ result.url }}</a>
-            <h2 class="mt-1 text-lg leading-snug text-[#1a0dab] sm:text-xl">
-              <a [href]="getResultHref(result.url)" target="_blank" rel="noopener noreferrer" class="hover:underline">{{ result.title }}</a>
-            </h2>
+          <article class="rounded-lg border border-transparent p-1 transition hover:border-[#f1f3f4]">
+            <p class="text-xs text-[#188038] sm:text-sm">{{ result.displayUrl }}</p>
+
+            @if (result.href) {
+              <h2 class="mt-1 text-lg leading-snug text-[#1a0dab] sm:text-xl">
+                <a [href]="getResultHref(result.href)" target="_blank" rel="noopener noreferrer" class="hover:underline">{{ result.title }}</a>
+              </h2>
+            } @else {
+              <h2 class="mt-1 text-lg font-medium leading-snug text-[#202124] sm:text-xl">{{ result.title }}</h2>
+            }
+
             @if (result.meta) {
               <p class="mt-1 text-xs font-medium text-[#5f6368] sm:text-sm">{{ result.meta }}</p>
             }
+
             <p class="mt-1 text-sm leading-relaxed text-[#4d5156]">{{ result.snippet }}</p>
-            @if (result.links?.length) {
-              <div class="mt-2 flex flex-wrap gap-2">
-                @for (link of result.links; track link.label) {
+
+            @if (result.actions?.length) {
+              <div class="mt-3 flex flex-wrap gap-2">
+                @for (action of result.actions; track action.label) {
                   <a
-                    [href]="link.href"
-                    [attr.download]="link.download ? '' : null"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="rounded border border-[#dadce0] px-2.5 py-1 text-xs font-semibold text-[#1a73e8] hover:border-[#1a73e8]"
+                    [href]="action.href"
+                    [attr.download]="action.download ? '' : null"
+                    [attr.target]="isExternalLink(action.href) ? '_blank' : null"
+                    [attr.rel]="isExternalLink(action.href) ? 'noopener noreferrer' : null"
+                    class="rounded border border-[#dadce0] px-2.5 py-1 text-xs font-semibold text-[#1a73e8] transition hover:border-[#1a73e8]"
                   >
-                    {{ link.label }}
+                    {{ action.label }}
                   </a>
                 }
               </div>
             }
+
             @if (result.details?.length) {
               <ul class="mt-2 list-disc space-y-1 pl-5 text-sm text-[#4d5156]">
                 @for (item of result.details; track item) {
@@ -70,54 +90,57 @@
           </article>
         }
 
-        <section class="rounded-lg border border-[#dadce0] p-4">
-          <h3 class="text-xl text-[#202124]">Hire me</h3>
-          <p class="mt-1 text-sm text-[#5f6368]">Creamos algo potente juntos?</p>
+        <section class="rounded-lg border border-[#dadce0] bg-[#f8f9fa] p-4">
+          <h3 class="text-xl text-[#202124]">Disponible para trabajar</h3>
+          <p class="mt-1 text-sm text-[#5f6368]">Busco proyecto donde aportar producto, codigo limpio y mejora continua.</p>
           <div class="mt-4 flex flex-wrap gap-2">
-            @for (action of quickActions; track action) {
+            @for (action of quickActions; track action.label) {
               <a
                 [href]="action.href"
                 [attr.download]="action.download ? '' : null"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="rounded bg-[#1a73e8] px-3 py-2 text-xs font-semibold text-white hover:bg-[#1765cc]"
+                [attr.target]="isExternalLink(action.href) ? '_blank' : null"
+                [attr.rel]="isExternalLink(action.href) ? 'noopener noreferrer' : null"
+                class="rounded bg-[#1a73e8] px-3 py-2 text-xs font-semibold text-white transition hover:bg-[#1765cc]"
               >
                 {{ action.label }}
               </a>
             }
           </div>
         </section>
-      </div>
+      </main>
 
-      <aside class="rounded-lg border border-[#dadce0] bg-[#fafafa]">
+      <aside class="h-fit rounded-lg border border-[#dadce0] bg-[#fafafa]">
         <img src="/profile-placeholder.svg" alt="Retrato de Antonio Morales" class="h-56 w-full rounded-t-lg object-cover" loading="lazy" />
 
-        <div class="space-y-4 p-4">
+        <div class="space-y-5 p-4">
           <div>
             <h3 class="text-3xl leading-tight text-[#202124]">Antonio Morales</h3>
             <p class="mt-1 text-sm text-[#5f6368]">Programador Full Stack</p>
           </div>
 
-          <ul class="space-y-2 text-sm text-[#3c4043]">
-            @for (item of highlights; track item) {
-              <li>{{ item }}</li>
+          <dl class="space-y-2 text-sm text-[#3c4043]">
+            @for (item of highlights; track item.label) {
+              <div class="grid grid-cols-[94px_1fr] gap-2">
+                <dt class="font-medium text-[#5f6368]">{{ item.label }}</dt>
+                <dd>
+                  @if (item.href) {
+                    <a [href]="item.href" class="text-[#1a73e8] hover:underline">{{ item.value }}</a>
+                  } @else {
+                    {{ item.value }}
+                  }
+                </dd>
+              </div>
             }
-          </ul>
+          </dl>
 
-          <div class="rounded-md border border-[#e0e0e0] bg-white p-3">
-            <h4 class="text-sm font-semibold text-[#202124]">Google Resume</h4>
-            <div class="mt-2 grid gap-1 text-sm text-[#1a73e8]">
-              <a [routerLink]="['/resultados']" [queryParams]="{ tab: 'Experiencia' }" class="hover:underline">Experiencia</a>
-              <a [routerLink]="['/resultados']" [queryParams]="{ tab: 'Formacion' }" class="hover:underline">Formacion</a>
-              <a [routerLink]="['/resultados']" [queryParams]="{ tab: 'Skills' }" class="hover:underline">Skills</a>
-              <a [routerLink]="['/resultados']" [queryParams]="{ tab: 'Proyectos' }" class="hover:underline">Proyectos</a>
-              <a href="https://github.com/Antoniomorales17" target="_blank" rel="noopener noreferrer" class="hover:underline">GitHub</a>
-              <a href="https://www.linkedin.com/in/antoniomoralesgimenez/" target="_blank" rel="noopener noreferrer" class="hover:underline">LinkedIn</a>
-              <a href="/Antonio_Morales_CV.pdf" target="_blank" rel="noopener noreferrer" class="hover:underline">Ver CV</a>
-              <a href="/Antonio_Morales_CV.pdf" download class="hover:underline">Descargar CV</a>
-              <a href="mailto:antonio@example.com" class="hover:underline">Contacto</a>
+          <section class="rounded-md border border-[#e0e0e0] bg-white p-3">
+            <h4 class="text-sm font-semibold text-[#202124]">Areas clave</h4>
+            <div class="mt-2 flex flex-wrap gap-2">
+              @for (area of expertiseAreas; track area) {
+                <span class="rounded-full bg-[#f1f3f4] px-2.5 py-1 text-xs text-[#5f6368]">{{ area }}</span>
+              }
             </div>
-          </div>
+          </section>
         </div>
       </aside>
     </div>
