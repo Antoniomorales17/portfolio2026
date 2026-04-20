@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-white text-[#202124]">
+<div class="min-h-screen bg-[radial-gradient(circle_at_top,_#f8fbff_0%,_#ffffff_58%)] text-[#202124]">
   <header class="px-4 pt-5 sm:px-8">
     <nav class="mx-auto flex w-full max-w-6xl items-center justify-end gap-3 text-sm text-[#3c4043]" aria-label="Enlaces de perfil">
       @for (item of headerLinks; track item.label) {
@@ -16,14 +16,14 @@
   </header>
 
   <main>
-    <section class="mx-auto flex min-h-[72vh] w-full max-w-6xl flex-col items-center justify-center px-4 text-center sm:px-8">
+    <section class="home-hero mx-auto flex min-h-[72vh] w-full max-w-6xl flex-col items-center justify-center px-4 text-center sm:px-8">
       <h1 class="google-word text-5xl font-semibold sm:text-7xl" aria-label="Antonio">
         <span class="g-blue">A</span><span class="g-red">n</span><span class="g-yellow">t</span><span class="g-blue">o</span><span class="g-green">n</span><span class="g-red">i</span><span class="g-yellow">o</span>
       </h1>
       <p class="mt-2 text-sm text-[#5f6368] sm:text-base">Full Stack Developer</p>
 
       <div class="mt-7 w-full max-w-2xl">
-        <div class="flex items-center rounded-full border border-[#dfe1e5] bg-white px-4 py-3 shadow-sm transition hover:shadow-md">
+        <div class="search-input-wrap flex items-center rounded-full border border-[#dfe1e5] bg-white px-4 py-3 shadow-sm">
           <svg class="h-5 w-5 text-[#9aa0a6]" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M11 18a7 7 0 1 1 4.95-2.05L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
           </svg>
@@ -40,11 +40,18 @@
           <a [routerLink]="['/resultados']" [queryParams]="{ tab: 'Todo' }" class="search-btn">Buscar con Google</a>
           <a href="mailto:antoniomora.gimenez@gmail.com" class="search-btn">Contactar</a>
         </div>
+
+        <div class="mt-5 flex flex-wrap items-center justify-center gap-2 text-xs text-[#5f6368] sm:text-sm">
+          <span class="feature-chip">Angular</span>
+          <span class="feature-chip">Tailwind</span>
+          <span class="feature-chip">Java</span>
+          <span class="feature-chip">Spring Boot</span>
+        </div>
       </div>
     </section>
   </main>
 
   <footer class="border-t border-[#eceff1] px-4 py-5 text-center text-xs text-[#5f6368] sm:px-8 sm:text-sm">
-    <p>Portfolio construido con Angular y Tailwind. Disenado para una navegacion rapida y clara.</p>
+    <p>Portfolio construido con Angular y Tailwind. Disenado para una navegacion rapida, clara y con foco en producto.</p>
   </footer>
 </div>

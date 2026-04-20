@@ -293,6 +293,12 @@ export class ResultsPage implements OnInit {
 
   readonly expertiseAreas = ['Experiencia', 'Formacion', 'Skills', 'Proyectos'];
 
+  readonly profileStats = [
+    { label: 'Anios de experiencia', value: '2+' },
+    { label: 'Proyectos completados', value: '15+' },
+    { label: 'Stack principal', value: 'Angular' },
+  ];
+
   constructor(
     private readonly route: ActivatedRoute,
     private readonly router: Router,
