@@ -39,38 +39,42 @@
 .top-action:hover {
   border-color: #d2e3fc;
   background: #f6fafe;
-  color: #1a73e8;
+
   transform: translateY(-1px);
 }
 
 .top-action:focus-visible {
-  outline: 2px solid #1a73e8;
+ 
   outline-offset: 2px;
 }
 
 .tab-button {
   border: 1px solid transparent;
-  border-radius: 9999px;
-  padding: 0.35rem 0.9rem;
+  
+  padding: 0.35rem 0.5rem;
   transition: all 0.2s ease;
 }
 
-.tab-button:hover {
-  border-color: #d2e3fc;
-  background: #f6fafe;
-  color: #1a73e8;
-}
 
-.tab-button:focus-visible {
-  outline: 2px solid #1a73e8;
-  outline-offset: 2px;
+.tab-button {
+  border: none;
+  background: transparent;
+
+  cursor: pointer;
 }
 
 .tab-button-active {
-  border-color: #d2e3fc;
-  background: #e8f0fe;
-  color: #1a73e8;
+  border-bottom: 3px solid #111;
+  color: #111;
+ 
+  background: transparent;
 }
+
+.tab-button:focus-visible {
+  outline-offset: 2px;
+}
+
+
 
 .premium-card,
 .premium-cta,
@@ -136,7 +140,6 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  
   line-height: 1.35;
   
 
@@ -173,13 +176,12 @@
 }
 
 .cta-button:hover {
-  background: #1765cc;
+
   box-shadow: 0 4px 16px rgba(26, 115, 232, 0.28);
   transform: translateY(-1px);
 }
 
 .cta-button:focus-visible {
-  outline: 2px solid #1a73e8;
   outline-offset: 2px;
 }
 

@@ -135,7 +135,7 @@ export class ResultsPage implements OnInit {
     },
     {
       title: 'Stack tecnico y herramientas',
-      displayUrl: 'portfolio > skills',
+      displayUrl: '',
       snippet: 'Angular, TypeScript, JavaScript, Java, Spring Boot, Python, Firebase, Tailwind, WordPress y Elasticsearch.',
       tab: 'Skills',
       details: [
@@ -328,7 +328,7 @@ export class ResultsPage implements OnInit {
     },
     {
       title: 'Contacto profesional',
-      displayUrl: 'portfolio > contacto',
+      displayUrl: '',
       snippet: 'Disponible para colaboraciones freelance, roles junior y proyectos remotos. Respuesta rapida por email y LinkedIn.',
       tab: 'Contacto',
       actions: [
