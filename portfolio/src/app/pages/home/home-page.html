@@ -38,20 +38,12 @@
 
         <div class="mt-6 flex flex-wrap items-center justify-center gap-3">
           <a [routerLink]="['/resultados']" [queryParams]="{ tab: 'Todo' }" class="search-btn">Buscar con Google</a>
-          <a href="mailto:antoniomora.gimenez@gmail.com" class="search-btn">Contactar</a>
+          <a [routerLink]="['/resultados']" [queryParams]="{ tab: 'Contacto' }" class="search-btn">Contactar</a>
         </div>
 
-        <div class="mt-5 flex flex-wrap items-center justify-center gap-2 text-xs text-[#5f6368] sm:text-sm">
-          <span class="feature-chip">Angular</span>
-          <span class="feature-chip">Tailwind</span>
-          <span class="feature-chip">Java</span>
-          <span class="feature-chip">Spring Boot</span>
-        </div>
+        
       </div>
     </section>
   </main>
 
-  <footer class="border-t border-[#eceff1] px-4 py-5 text-center text-xs text-[#5f6368] sm:px-8 sm:text-sm">
-    <p>Portfolio construido con Angular y Tailwind. Disenado para una navegacion rapida, clara y con foco en producto.</p>
-  </footer>
 </div>

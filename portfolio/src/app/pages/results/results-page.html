@@ -1,6 +1,6 @@
-<div class="min-h-screen bg-[radial-gradient(circle_at_top,_#f8fbff_0%,_#ffffff_60%)] px-4 py-6 text-[#202124] sm:px-8">
-  <section class="search-shell mx-auto w-full max-w-6xl rounded-2xl border border-[#e7eaef] bg-white/95 shadow-sm backdrop-blur">
-    <header class="border-b border-[#eceff1] px-4 py-3 sm:px-6">
+<div class="min-h-screen bg- px-4 py-6 text-[#202124] sm:px-8">
+  <section class="search-shell mx-auto w-full max-w-6xl ">
+    <header class=" px-4 py-3 sm:px-6">
       <div class="flex flex-wrap items-center gap-3">
         <a [routerLink]="['/']" class="google-word border-0 bg-transparent p-0 text-2xl font-semibold" aria-label="Volver al inicio">
           <span class="g-blue">A</span><span class="g-red">n</span><span class="g-yellow">t</span><span class="g-blue">o</span><span class="g-green">n</span><span class="g-red">i</span><span class="g-yellow">o</span>
@@ -35,6 +35,7 @@
           </button>
         }
       </nav>
+      <div class="mt-3 border-b border-[#dfe1e5]"></div>
     </header>
 
     <div class="grid gap-6 p-4 sm:p-6 lg:grid-cols-[minmax(0,1.5fr)_minmax(310px,0.8fr)]">
@@ -69,6 +70,7 @@
                 @for (action of result.actions; track action.label) {
                   <a
                     [href]="action.href"
+                    (click)="onActionClick($event, action)"
                     [attr.download]="action.download ? '' : null"
                     [attr.target]="isExternalLink(action.href) ? '_blank' : null"
                     [attr.rel]="isExternalLink(action.href) ? 'noopener noreferrer' : null"
@@ -90,34 +92,58 @@
           </article>
         }
 
-        <section class="premium-cta rounded-xl border border-[#dadce0] bg-[#f8f9fa] p-4">
-          <h3 class="text-xl text-[#202124]">Disponible para trabajar</h3>
-          <p class="mt-1 text-sm text-[#5f6368]">Busco proyecto donde aportar producto, codigo limpio y mejora continua.</p>
-          <div class="mt-4 flex flex-wrap gap-2">
-            @for (action of quickActions; track action.label) {
-              <a
-                [href]="action.href"
-                [attr.download]="action.download ? '' : null"
-                [attr.target]="isExternalLink(action.href) ? '_blank' : null"
-                [attr.rel]="isExternalLink(action.href) ? 'noopener noreferrer' : null"
-                class="cta-button rounded-full bg-[#1a73e8] px-3 py-2 text-xs font-semibold text-white"
-              >
-                {{ action.label }}
-              </a>
+        <section class="rounded-xl border border-[#e6ebf2] bg-white p-4 sm:p-5">
+          <h3 class="text-2xl text-[#202124]">Latest from portfolio</h3>
+          <div class="mt-4 grid gap-3 sm:grid-cols-2">
+            @for (project of featuredProjects; track project.title) {
+              <article class="feed-card rounded-xl border border-[#e8eaed] bg-[#f8faff] p-4">
+                <p class="text-xs font-semibold uppercase tracking-wide text-[#1a73e8]">{{ project.category }}</p>
+                <h4 class="mt-1 text-lg font-medium text-[#202124]">{{ project.title }}</h4>
+                <p class="mt-1 text-sm text-[#4d5156]">{{ project.summary }}</p>
+                <p class="mt-2 text-xs text-[#5f6368]">{{ project.stack }}</p>
+                <a [href]="project.href" target="_blank" rel="noopener noreferrer" class="mt-3 inline-flex text-sm font-semibold text-[#1a73e8] hover:underline">
+                  Ver proyecto
+                </a>
+              </article>
             }
           </div>
         </section>
+
+        <section class="google-paa mt-2 p-4 sm:p-5">
+          <h4 class="google-paa-title font-medium">People also ask</h4>
+          <div class="mt-3">
+            @for (item of quickQuestions; track item.question) {
+              <details class="google-paa-item group">
+                <summary class="google-paa-summary">
+                  <span class="google-paa-question">
+                    <span>{{ item.question }}</span>
+                    <span class="google-paa-icon" aria-hidden="true">&#9662;</span>
+                  </span>
+                </summary>
+                <p class="google-paa-answer">{{ item.answer }}</p>
+              </details>
+            }
+          </div>
+        </section>
+
+        @if (clipboardNotice) {
+          <p class="rounded-lg border border-[#d2e3fc] bg-[#e8f0fe] px-3 py-2 text-sm text-[#1a73e8]">
+            {{ clipboardNotice }}
+          </p>
+        }
+
+       
       </main>
 
       <aside class="knowledge-panel h-fit rounded-xl border border-[#d8dee7] bg-[#fafbff]">
         <div class="relative h-56 overflow-hidden rounded-t-xl">
           <div class="absolute inset-0 bg-gradient-to-br from-[#dfe9ff] via-[#edf3ff] to-[#f5f8ff]"></div>
-          <img src="/profile-placeholder.svg" alt="Retrato de Antonio Morales" class="relative z-10 h-full w-full object-cover opacity-90" loading="lazy" />
+          <img src="/antonio-profile.jpeg" alt="Retrato de Antonio Morales" class="relative z-10 h-full w-full object-cover opacity-90" loading="lazy" />
         </div>
 
         <div class="space-y-5 p-4">
           <div>
-            <p class="text-xs uppercase tracking-wide text-[#5f6368]">Knowledge panel</p>
+            
             <h3 class="mt-1 text-3xl leading-tight text-[#202124]">Antonio Morales</h3>
             <p class="mt-1 text-sm text-[#5f6368]">Programador Full Stack</p>
           </div>

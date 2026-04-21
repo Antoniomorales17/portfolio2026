@@ -26,6 +26,19 @@ interface ActionLink {
   download?: boolean;
 }
 
+interface FeaturedProject {
+  title: string;
+  category: 'Frontend' | 'Backend' | 'Diseno UX/UI';
+  summary: string;
+  stack: string;
+  href: string;
+}
+
+interface QuickQuestion {
+  question: string;
+  answer: string;
+}
+
 @Component({
   selector: 'app-results-page',
   imports: [RouterLink],
@@ -34,17 +47,19 @@ interface ActionLink {
 })
 export class ResultsPage implements OnInit {
   activeTab: ResultTab = 'Todo';
+  clipboardNotice: string | null = null;
+  private clipboardNoticeTimeout: ReturnType<typeof setTimeout> | null = null;
 
   readonly profileSummary =
-    'Desarrollador Full Stack Junior con enfoque en Front-End (Angular, TypeScript y Tailwind), experiencia real en producto y base solida en Java, Python y servicios cloud.';
+    'Desarrollador Full Stack con enfoque en Front-End (Angular, TypeScript y Tailwind CSS) y diseño web. Experiencia en migración de versiones, gestión de CMS (WordPress) y uso de Figma para diseño de interfaces. Conocimientos complementarios en Back-End (Java, Python y Firebase)';
 
   readonly navTabs: ResultTab[] = ['Todo', 'Experiencia', 'Formacion', 'Skills', 'Proyectos', 'Contacto'];
 
   readonly searchResults: SearchResult[] = [
     {
       title: 'Copyfly | Desarrollador FullStack',
-      displayUrl: 'portfolio > experiencia > copyfly',
-      meta: 'Almeria, Espana | Marzo 2025 - Abril 2026',
+      displayUrl: '',
+      meta: 'Almeria, España | Marzo 2025 - Abril 2026',
       snippet:
         'Desarrollo y maquetacion web con Angular y Tailwind, gestion de datos en Firebase y Elasticsearch, optimizacion continua y mantenimiento de CMS.',
       tab: 'Experiencia',
@@ -57,8 +72,8 @@ export class ResultsPage implements OnInit {
     },
     {
       title: 'Softteck | Desarrollador FullStack',
-      displayUrl: 'portfolio > experiencia > softteck',
-      meta: 'Cordoba, Espana | Noviembre 2024 - Marzo 2025',
+      displayUrl: '',
+      meta: 'Cordoba, España | Noviembre 2024 - Marzo 2025',
       snippet: 'Participacion en proyecto para Banco Santander trabajando con Angular y Java, incluyendo calidad de codigo y pruebas unitarias.',
       tab: 'Experiencia',
       details: [
@@ -69,7 +84,7 @@ export class ResultsPage implements OnInit {
     },
     {
       title: 'Amvos Digital | E-commerce Manager',
-      displayUrl: 'portfolio > experiencia > amvos-digital',
+      displayUrl: '',
       meta: '2021',
       snippet: 'Analisis en profundidad de mercados B2C y B2B para detectar oportunidades de crecimiento y mejora en negocio digital.',
       tab: 'Experiencia',
@@ -77,7 +92,7 @@ export class ResultsPage implements OnInit {
     },
     {
       title: 'Ayuntamiento de Almeria | Tecnico Superior en Investigacion de Mercados',
-      displayUrl: 'portfolio > experiencia > ayuntamiento-almeria',
+      displayUrl: '',
       meta: '2018',
       snippet: 'Participacion en estudio de mercado turistico local con analisis de competencia y tendencias.',
       tab: 'Experiencia',
@@ -85,36 +100,36 @@ export class ResultsPage implements OnInit {
     },
     {
       title: 'Universitat Oberta de Catalunya (UOC) | Grado en Ciencia de Datos',
-      displayUrl: 'portfolio > formacion > uoc-ciencia-de-datos',
-      meta: 'Barcelona, Espana | Cursando',
+      displayUrl: '',
+      meta: 'Barcelona, España | Cursando',
       snippet: 'Formacion universitaria actual orientada al analisis de datos, modelado y tecnologia aplicada a negocio.',
       tab: 'Formacion',
     },
     {
       title: 'HACK A BOSS | Java / Spring Boot',
-      displayUrl: 'portfolio > formacion > hack-a-boss',
-      meta: 'Online, Espana | 2024',
+      displayUrl: '',
+      meta: 'Online, España | 2024',
       snippet: 'Especializacion tecnica en desarrollo de aplicaciones Java y arquitectura backend con Spring Boot.',
       tab: 'Formacion',
     },
     {
       title: '4Geeks Academy | Full Stack Developer',
-      displayUrl: 'portfolio > formacion > 4geeks',
-      meta: 'Online, Espana | 2023',
+      displayUrl: '',
+      meta: 'Online, España | 2023',
       snippet: 'Programa intensivo full stack con foco en desarrollo de aplicaciones web modernas.',
       tab: 'Formacion',
     },
     {
       title: 'Universidad de La Rioja (UNIR) | Master en E-Commerce',
-      displayUrl: 'portfolio > formacion > unir-ecommerce',
-      meta: 'Online, Espana | 2022',
+      displayUrl: '',
+      meta: 'Online, España | 2022',
       snippet: 'Formacion avanzada en comercio electronico, estrategia digital y gestion de canales online.',
       tab: 'Formacion',
     },
     {
       title: 'Universidad de Almeria | Grado en Marketing e Investigacion de Mercados',
-      displayUrl: 'portfolio > formacion > ual-marketing',
-      meta: 'Almeria, Espana | 2015',
+      displayUrl: '',
+      meta: 'Almeria, España | 2015',
       snippet: 'Base academica en marketing, investigacion de mercados y analisis de comportamiento del consumidor.',
       tab: 'Formacion',
     },
@@ -130,28 +145,33 @@ export class ResultsPage implements OnInit {
       ],
     },
     {
-      title: 'Cabo Indalo (Proyecto principal)',
-      displayUrl: 'www.caboindalo.es/es',
+      title: 'Cabo Indalo',
+      displayUrl: '',
       href: 'https://www.caboindalo.es/es',
       meta: 'Proyecto destacado | Produccion',
-      snippet: 'Proyecto principal en produccion orientado a presencia digital y experiencia web.',
+      snippet: 'Web oficial de Cabo Indalo, un complejo turistico en Almeria, desarrollado con Angular y Tailwind. Producto real para mostrarse en airbnb y otras plataformas de turismo.',
       tab: 'Proyectos',
       actions: [
-        { label: 'Ver web', href: 'https://www.caboindalo.es/es' },
         { label: 'GitHub', href: 'https://github.com/Antoniomorales17/cabo-indalo' },
       ],
     },
     {
       title: 'Kdabra',
-      displayUrl: 'portfolio > proyectos > kdabra',
+      displayUrl: '',
+      href: 'https://kadabra.netlify.app/',
       meta: 'Noviembre 2024 - Actualidad | Asociado con Softteck',
       snippet: 'SPA en Angular 19 que simula una tienda basica con despliegue en Netlify.',
+      
       tab: 'Proyectos',
-      details: ['Stack: Angular 19 y frontend web.', 'Despliegue en Netlify.', 'Demo detallada disponible bajo solicitud.'],
+      details: ['Stack: Angular 19 y Tailwind.', 'Despliegue en Netlify.', 'Proyecto orientado a maquetacion, estructura y despliegue.'],
+      actions: [
+        { label: 'GitHub', href: 'https://github.com/Antoniomorales17/kadabra' },
+      ],
     },
     {
       title: 'Santander App FullStack',
-      displayUrl: 'portfolio > proyectos > santander-app-fullstack',
+      displayUrl: '',
+      href: 'https://santander-inky.vercel.app/',
       meta: 'Enero 2025 - Febrero 2025 | Asociado con Softteck',
       snippet: 'Aplicacion fullstack inspirada en Banco Santander con backend Spring Boot y frontend Angular.',
       tab: 'Proyectos',
@@ -161,18 +181,59 @@ export class ResultsPage implements OnInit {
         'Base de datos: PostgreSQL.',
         'Seguridad: JWT y CORS.',
       ],
+       actions: [
+        { label: 'GitHub', href: 'https://github.com/Antoniomorales17/santander' },
+      ],
+    },
+    {
+      title: 'JobCompany',
+      displayUrl: '',
+      meta: 'Proyecto Java backend | JPA',
+      snippet: 'Aplicacion Java para administrar la informacion de empleados usando Java Persistence API (JPA).',
+      tab: 'Proyectos',
+      details: ['Backend con Java orientado a gestion de empleados.', 'Persistencia de datos con JPA y SQL.'],
+      actions: [{ label: 'GitHub', href: 'https://github.com/Antoniomorales17/MoralesGimenez_pruebatec1' }],
+    },
+    {
+      title: 'tuCita',
+      displayUrl: '',
+      meta: 'Proyecto Java Spring Boot | Gestion de citas',
+      snippet:
+        'Aplicacion para pedir y gestionar citas con la administracion, incluyendo modalidad, registro de hora y cambio de estado.',
+      tab: 'Proyectos',
+      details: ['Java + Spring Boot + SQL.', 'Estados de cita: En espera y Atendido.'],
+      actions: [{ label: 'GitHub', href: 'https://github.com/Antoniomorales17/MoralesAntonio_pruebatec2' }],
+    },
+    {
+      title: 'Agencia & Sistema de reservas',
+      displayUrl: '',
+      meta: 'Proyecto API REST | Reservas de hotel y vuelos',
+      snippet:
+        'Simulacion de sistema de reservas de habitaciones y vuelos con arquitectura backend en Java y Spring Boot.',
+      tab: 'Proyectos',
+      details: [
+        'API REST con Spring Boot.',
+        'Testing, JPA + Hibernate y seguridad con Spring Security + JWT.',
+        'Persistencia SQL.',
+      ],
+      actions: [{ label: 'GitHub', href: 'https://github.com/Antoniomorales17/Agencia-Java-Spring' }],
     },
     {
       title: 'Little Lemon',
-      displayUrl: 'portfolio > proyectos > little-lemon',
+      displayUrl: '',
+      href: 'https://little-eight.vercel.app/',
       meta: 'Mayo 2024',
       snippet: 'Proyecto final de Meta Front-End: app de reservas con React y consumo de APIs.',
       tab: 'Proyectos',
       details: ['Proyecto academico con foco en React y experiencia de usuario.'],
+        actions: [
+        { label: 'GitHub', href: 'https://github.com/Antoniomorales17/LittleLemon' },
+      ],
     },
     {
       title: 'WebMentor',
-      displayUrl: 'portfolio > proyectos > webmentor',
+       displayUrl: '',
+      href: 'https://www.figma.com/design/4BylQgWeCxRfaj84zN1uD1/WebMentor-hi-fi?node-id=1-69&t=6KpiaYaSRuhzHyCO-0',
       meta: 'Marzo 2024 - Mayo 2024',
       snippet: 'Prototipo de formacion digital para personas mayores, enfocado en UX con Figma.',
       tab: 'Proyectos',
@@ -180,7 +241,8 @@ export class ResultsPage implements OnInit {
     },
     {
       title: 'Gourmet Express',
-      displayUrl: 'portfolio > proyectos > gourmet-express',
+       displayUrl: '',
+      href: 'https://www.figma.com/design/JLlovkZQgY1iDY0dVrXIu8/Prototipo-de-alta-fidelidad-Gourmet-Express-%F0%9F%8D%A3?node-id=1-828&t=N2YYJJq93XBq8Xor-0',
       meta: 'Octubre 2023 - Enero 2024',
       snippet: 'Prototipo de app de comida de lujo a domicilio trabajado desde enfoque UX y negocio.',
       tab: 'Proyectos',
@@ -188,63 +250,69 @@ export class ResultsPage implements OnInit {
     },
     {
       title: 'Philosophy-App',
-      displayUrl: 'portfolio > proyectos > philosophy-app',
+       displayUrl: '',
+      href: 'https://juanmogimenez.vercel.app/',
       meta: 'Noviembre 2023 - Diciembre 2023',
       snippet: 'Aplicacion React para explorar contenido filosofico con foco en UX y responsive design.',
       tab: 'Proyectos',
       details: ['Aplicacion React responsive con enfoque en arquitectura de componentes.'],
+       actions: [
+        { label: 'GitHub', href: 'https://github.com/Antoniomorales17/Philosophy-App' },
+      ],
     },
     {
       title: 'finDeveloper',
-      displayUrl: 'portfolio > proyectos > findeveloper',
+       displayUrl: '',
+      href: 'https://findeveloper.vercel.app/',
       meta: 'Noviembre 2023',
-      snippet: 'Plataforma web para facilitar la busqueda y contacto directo con desarrolladores.',
+      snippet: 'Plataforma web realizada con React para facilitar la busqueda y contacto directo con desarrolladores.',
       tab: 'Proyectos',
       details: ['Proyecto orientado a matching entre talento tecnico y necesidades reales de negocio.'],
+       actions: [
+        { label: 'GitHub', href: 'https://github.com/Antoniomorales17/finDeveloper' },
+      ],
     },
-    {
-      title: 'Blog Personal',
-      displayUrl: 'portfolio > proyectos > blog-personal',
-      meta: 'Octubre 2023',
-      snippet: 'Blog de aprendizaje en programacion junior construido con HTML, CSS, JavaScript y React.',
-      tab: 'Proyectos',
-      details: ['Roadmap futuro con Node.js, Express y MongoDB.'],
-    },
-    {
-      title: 'lavidadeunjunior',
-      displayUrl: 'portfolio > proyectos > lavidadeunjunior',
-      meta: 'Octubre 2023',
-      snippet: 'Blog personal en WordPress para compartir experiencia y aprendizaje del mundo digital.',
-      tab: 'Proyectos',
-      details: ['CMS: WordPress.', 'Enfoque en SEO y contenidos.'],
-    },
+    
+    
     {
       title: 'Gif & Photo Search',
-      displayUrl: 'portfolio > proyectos > gif-photo-search',
+      displayUrl: '',
+      href: 'https://gifphotosearch.vercel.app/',
       meta: 'Septiembre 2023',
       snippet: 'Aplicacion web para buscar y descargar GIFs y fotos desde Giphy y Pixabay.',
       tab: 'Proyectos',
       details: ['Busqueda por palabra clave.', 'Vista ampliada y descarga de contenido.'],
+       actions: [
+        { label: 'GitHub', href: 'https://github.com/Antoniomorales17/Gif-Photo-Search-App' },
+      ],
     },
     {
       title: 'NonoStore',
-      displayUrl: 'portfolio > proyectos > nonostore',
+     displayUrl: '',
+      href: 'https://nonostore.vercel.app//',
       meta: 'Septiembre 2023',
       snippet: 'Tienda de ropa online en version estatica con enfoque en estructura y presentacion de catalogo.',
       tab: 'Proyectos',
       details: ['Proyecto frontend orientado a maquetacion y estructura de catalogo.'],
+       actions: [
+        { label: 'GitHub', href: 'https://github.com/Antoniomorales17/NonoStore' },
+      ],
     },
     {
       title: 'QuizGames',
-      displayUrl: 'portfolio > proyectos > quizgames',
+      displayUrl: '',
+      href: 'https://quizvideogames.vercel.app/',
       meta: 'Septiembre 2023',
       snippet: 'Quiz retro de videojuegos desarrollado en React con progreso y puntuacion.',
       tab: 'Proyectos',
       details: ['Preguntas retro, progreso de usuario y gestion de puntuacion.'],
+       actions: [
+        { label: 'GitHub', href: 'https://github.com/Antoniomorales17/QuizGames' },
+      ],
     },
     {
       title: 'Wizz-Mail',
-      displayUrl: 'portfolio > proyectos > wizz-mail',
+      displayUrl: '',
       meta: 'Julio 2023 - Agosto 2023 | Asociado con 4Geeks Academy Espana',
       snippet: 'App para gestion de tickets con IA, respuestas inteligentes en tiempo real y flujo 24/7.',
       tab: 'Proyectos',
@@ -253,6 +321,9 @@ export class ResultsPage implements OnInit {
         'Backend: Python y Flask.',
         'Base de datos: PostgreSQL.',
         'Integracion con API de OpenAI para respuesta automatizada en vivo.',
+      ],
+       actions: [
+        { label: 'GitHub', href: 'https://github.com/Antoniomorales17/WizzMail' },
       ],
     },
     {
@@ -288,15 +359,73 @@ export class ResultsPage implements OnInit {
     { label: 'Email', value: 'antoniomora.gimenez@gmail.com', href: 'mailto:antoniomora.gimenez@gmail.com' },
     { label: 'Telefono', value: '647 66 45 36', href: 'tel:+34647664536' },
     { label: 'Ciudad', value: 'Almeria' },
-    { label: 'Especialidad', value: 'Frontend / Full Stack Junior' },
+    { label: 'Especialidad', value: 'Frontend / Diseño Web' },
   ];
 
-  readonly expertiseAreas = ['Experiencia', 'Formacion', 'Skills', 'Proyectos'];
+readonly expertiseAreas = ['Angular', 'Tailwind', 'Figma', 'WordPress', 'Firebase', 'Java', 'Spring Boot', 'Python',];
 
   readonly profileStats = [
-    { label: 'Anios de experiencia', value: '2+' },
-    { label: 'Proyectos completados', value: '15+' },
+    { label: 'Años de experiencia', value: '2+' },
+    { label: 'Proyectos completados', value: '18+' },
     { label: 'Stack principal', value: 'Angular' },
+  ];
+
+  readonly featuredProjects: FeaturedProject[] = [
+    {
+      title: 'Cabo Indalo',
+      category: 'Frontend',
+      summary: 'Web publica para negocio real de turismo con Angular y Tailwind.',
+      stack: 'Angular, Tailwind',
+      href: 'https://www.caboindalo.es/es',
+    },
+    {
+      title: 'JobCompany',
+      category: 'Backend',
+      summary: 'Gestion de empleados con Java, SQL y JPA.',
+      stack: 'Java, SQL, JPA',
+      href: 'https://github.com/Antoniomorales17/MoralesGimenez_pruebatec1',
+    },
+    {
+      title: 'tuCita',
+      category: 'Backend',
+      summary: 'Sistema de citas con estados y calendario para administracion.',
+      stack: 'Java, Spring Boot, SQL',
+      href: 'https://github.com/Antoniomorales17/MoralesAntonio_pruebatec2',
+    },
+    {
+      title: 'WebMentor',
+      category: 'Diseno UX/UI',
+      summary: 'Prototipo en Figma para formacion digital orientada a personas mayores.',
+      stack: 'Figma, UX Research',
+      href: 'https://www.figma.com/design/4BylQgWeCxRfaj84zN1uD1/WebMentor-hi-fi?node-id=1-69&t=6KpiaYaSRuhzHyCO-0',
+    },
+  ];
+
+  readonly quickQuestions: QuickQuestion[] = [
+    {
+      question: 'Que tipo de proyectos puedes desarrollar?',
+      answer:
+        'Puedo trabajar en frontend (Angular/React), backend con Java + Spring Boot y diseno de producto en Figma.',
+    },
+    {
+      question: 'Tienes experiencia real en empresas?',
+      answer: 'Si. He trabajado en entornos reales con Angular, Java, WordPress, Firebase y mantenimiento evolutivo.',
+    },
+    {
+      question: 'Donde puedo ver tu codigo?',
+      answer: 'En GitHub publico, con proyectos de frontend, backend y APIs REST con seguridad JWT.',
+    },
+    {
+      question: 'Como podemos colaborar?',
+      answer: 'Puedes escribirme por LinkedIn o email para proyectos freelance, colaboraciones o posiciones junior.',
+    },
+  ];
+
+  readonly directLinks: ActionLink[] = [
+    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/antoniomoralesgimenez/' },
+    { label: 'GitHub', href: 'https://github.com/Antoniomorales17' },
+    { label: 'Ver CV', href: '/Antonio_Morales_CV.pdf' },
+    { label: 'Descargar CV', href: '/Antonio_Morales_CV.pdf', download: true },
   ];
 
   constructor(
@@ -340,6 +469,61 @@ export class ResultsPage implements OnInit {
 
   isExternalLink(href: string): boolean {
     return href.startsWith('http://') || href.startsWith('https://');
+  }
+
+  onActionClick(event: MouseEvent, action: ResultAction): void {
+    if (action.href.startsWith('mailto:')) {
+      event.preventDefault();
+      const email = action.href.replace('mailto:', '');
+      this.copyToClipboard(email, 'Email copiado al portapapeles');
+      return;
+    }
+
+    if (action.href.startsWith('tel:')) {
+      event.preventDefault();
+      const phone = action.href.replace('tel:', '');
+      this.copyToClipboard(phone, 'Telefono copiado al portapapeles');
+    }
+  }
+
+  private copyToClipboard(value: string, successMessage: string): void {
+    if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+      void navigator.clipboard
+        .writeText(value)
+        .then(() => this.showClipboardNotice(successMessage))
+        .catch(() => this.copyWithFallback(value, successMessage));
+      return;
+    }
+    this.copyWithFallback(value, successMessage);
+  }
+
+  private copyWithFallback(value: string, successMessage: string): void {
+    const textarea = document.createElement('textarea');
+    textarea.value = value;
+    textarea.setAttribute('readonly', 'true');
+    textarea.style.position = 'fixed';
+    textarea.style.left = '-9999px';
+    document.body.appendChild(textarea);
+    textarea.select();
+    const success = document.execCommand('copy');
+    document.body.removeChild(textarea);
+
+    if (success) {
+      this.showClipboardNotice(successMessage);
+    } else {
+      this.showClipboardNotice('No se pudo copiar automaticamente');
+    }
+  }
+
+  private showClipboardNotice(message: string): void {
+    this.clipboardNotice = message;
+    if (this.clipboardNoticeTimeout) {
+      clearTimeout(this.clipboardNoticeTimeout);
+    }
+    this.clipboardNoticeTimeout = setTimeout(() => {
+      this.clipboardNotice = null;
+      this.clipboardNoticeTimeout = null;
+    }, 2200);
   }
 
   private isValidTab(value: string | null): value is ResultTab {
