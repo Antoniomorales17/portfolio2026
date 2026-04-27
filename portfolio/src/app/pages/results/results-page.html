@@ -1,19 +1,19 @@
 <div class="min-h-screen bg- px-4 py-6 text-[#202124] sm:px-8">
   <section class="search-shell mx-auto w-full max-w-6xl ">
     <header class=" px-4 py-3 sm:px-6">
-      <div class="flex flex-wrap items-center gap-3">
-        <a [routerLink]="['/']" class="google-word border-0 bg-transparent p-0 text-2xl font-semibold" aria-label="Volver al inicio">
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+        <a [routerLink]="['/']" class="google-word mx-auto border-0 bg-transparent p-0 text-2xl font-semibold sm:mx-0" aria-label="Volver al inicio">
           <span class="g-blue">A</span><span class="g-red">n</span><span class="g-yellow">t</span><span class="g-blue">o</span><span class="g-green">n</span><span class="g-red">i</span><span class="g-yellow">o</span>
         </a>
 
-        <div class="search-pill flex min-w-[220px] flex-1 items-center rounded-full border border-[#dfe1e5] px-4 py-2.5">
+        <div class="search-pill flex w-full items-center rounded-full border border-[#dfe1e5] px-4 py-2.5 sm:min-w-[260px] sm:flex-1">
           <svg class="h-4 w-4 text-[#9aa0a6]" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M11 18a7 7 0 1 1 4.95-2.05L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
           </svg>
           <span class="ml-3 text-xs text-[#5f6368] sm:text-sm">Antonio Morales portfolio</span>
         </div>
 
-        <div class="ml-auto flex items-center gap-2 text-xs sm:text-sm">
+        <div class="top-actions flex w-full flex-wrap items-center justify-center gap-2 text-xs sm:ml-auto sm:w-auto sm:flex-nowrap sm:justify-end sm:text-sm">
           @for (item of topRightActions; track item.label) {
             <a
               [href]="item.href"
@@ -28,12 +28,14 @@
         </div>
       </div>
 
-      <nav class="mt-4 flex flex-nowrap gap-2 text-xs text-[#5f6368] sm:text-sm" aria-label="Filtros del portfolio">
-        @for (tab of navTabs; track tab) {
-          <button type="button" class="tab-button" [class.tab-button-active]="isTabActive(tab)" (click)="selectTab(tab)">
-            {{ tab }}
-          </button>
-        }
+      <nav class="mt-4 text-xs text-[#5f6368] sm:text-sm" aria-label="Filtros del portfolio">
+        <div class="tab-list">
+          @for (tab of navTabs; track tab) {
+            <button type="button" class="tab-button" [class.tab-button-active]="isTabActive(tab)" (click)="selectTab(tab)">
+              {{ tab }}
+            </button>
+          }
+        </div>
       </nav>
       <div class=" border-b border-[#dfe1e5]"></div>
     </header>
