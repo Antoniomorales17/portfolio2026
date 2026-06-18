@@ -4,29 +4,35 @@
       <p class="text-sm font-semibold uppercase tracking-wider text-amber-300">Contactame</p>
       <h2 class="mt-2 text-3xl font-bold text-zinc-100">Tienes una idea? Cuentamela</h2>
       <p class="mt-4 text-zinc-300">
-        Esta seccion es la base inicial. En la siguiente iteracion conectamos el formulario a EmailJS, Resend o tu API.
+        Rellena el formulario y te respondere a la mayor brevedad.
       </p>
     </div>
 
-    <form class="grid gap-4">
-      <label class="grid gap-1 text-sm font-semibold text-zinc-300">
-        Tu nombre
-        <input type="text" class="rounded-xl border border-zinc-700 bg-zinc-900 px-3 py-2 font-medium text-zinc-100 outline-none ring-amber-300 transition focus:border-amber-400 focus:ring" />
-      </label>
+    @if (sent) {
+      <div class="flex items-center justify-center rounded-xl border border-amber-400/30 bg-amber-400/10 p-8 text-center">
+        <p class="text-lg font-semibold text-amber-300">Gracias! Te respondere pronto.</p>
+      </div>
+    } @else {
+      <form class="grid gap-4" #contactForm="ngForm" (ngSubmit)="submit()">
+        <label class="grid gap-1 text-sm font-semibold text-zinc-300">
+          Tu nombre
+          <input type="text" name="name" [(ngModel)]="form.name" required class="rounded-xl border border-zinc-700 bg-zinc-900 px-3 py-2 font-medium text-zinc-100 outline-none ring-amber-300 transition focus:border-amber-400 focus:ring" />
+        </label>
 
-      <label class="grid gap-1 text-sm font-semibold text-zinc-300">
-        Tu email
-        <input type="email" class="rounded-xl border border-zinc-700 bg-zinc-900 px-3 py-2 font-medium text-zinc-100 outline-none ring-amber-300 transition focus:border-amber-400 focus:ring" />
-      </label>
+        <label class="grid gap-1 text-sm font-semibold text-zinc-300">
+          Tu email
+          <input type="email" name="email" [(ngModel)]="form.email" required class="rounded-xl border border-zinc-700 bg-zinc-900 px-3 py-2 font-medium text-zinc-100 outline-none ring-amber-300 transition focus:border-amber-400 focus:ring" />
+        </label>
 
-      <label class="grid gap-1 text-sm font-semibold text-zinc-300">
-        Tu mensaje
-        <textarea rows="5" class="rounded-xl border border-zinc-700 bg-zinc-900 px-3 py-2 font-medium text-zinc-100 outline-none ring-amber-300 transition focus:border-amber-400 focus:ring"></textarea>
-      </label>
+        <label class="grid gap-1 text-sm font-semibold text-zinc-300">
+          Tu mensaje
+          <textarea rows="5" name="message" [(ngModel)]="form.message" required class="rounded-xl border border-zinc-700 bg-zinc-900 px-3 py-2 font-medium text-zinc-100 outline-none ring-amber-300 transition focus:border-amber-400 focus:ring"></textarea>
+        </label>
 
-      <button type="button" class="rounded-xl bg-amber-400 px-5 py-3 text-sm font-semibold text-zinc-950 transition hover:bg-amber-300">
-        Enviar
-      </button>
-    </form>
+        <button type="submit" class="rounded-xl bg-amber-400 px-5 py-3 text-sm font-semibold text-zinc-950 transition hover:bg-amber-300">
+          Enviar
+        </button>
+      </form>
+    }
   </div>
 </section>

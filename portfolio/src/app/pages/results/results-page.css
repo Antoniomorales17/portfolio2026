@@ -39,7 +39,6 @@
 .top-action:hover {
   border-color: #d2e3fc;
   background: #f6fafe;
-
   transform: translateY(-1px);
 }
 
@@ -259,3 +258,4 @@
     padding: 0.35rem 0.5rem;
   }
 }
+

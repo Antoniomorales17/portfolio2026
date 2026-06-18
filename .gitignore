@@ -1,0 +1,5 @@
+node_modules/
+portfolio/node_modules/
+portfolio/dist/
+.vercel/
+*.log

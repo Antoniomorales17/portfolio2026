@@ -17,6 +17,13 @@ interface ProjectItem {
 export class Projects {
   protected readonly projects: ProjectItem[] = [
     {
+      name: 'AlmeriaFoodMap',
+      type: 'Full Stack',
+      stack: 'Django, Python, TailwindCSS, Google Maps API, SQLite',
+      github: 'https://github.com/Antoniomorales17/AlmeriaFoodMap',
+      demo: 'https://almeriafoodmap.onrender.com',
+    },
+    {
       name: 'Cabo Indalo',
       type: 'Frontend',
       stack: 'Angular, Tailwind',

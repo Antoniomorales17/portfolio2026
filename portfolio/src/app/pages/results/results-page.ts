@@ -18,6 +18,7 @@ interface SearchResult {
   href?: string;
   details?: string[];
   actions?: ResultAction[];
+  thumbnail?: string;
 }
 
 interface ActionLink {
@@ -32,6 +33,7 @@ interface FeaturedProject {
   summary: string;
   stack: string;
   href: string;
+  thumbnail?: string;
 }
 
 interface QuickQuestion {
@@ -49,6 +51,7 @@ export class ResultsPage implements OnInit {
   activeTab: ResultTab = 'Todo';
   clipboardNotice: string | null = null;
   private clipboardNoticeTimeout: ReturnType<typeof setTimeout> | null = null;
+  protected readonly projectThumbnails = new Map<string, string>();
 
   readonly profileSummary =
     'Desarrollador Full Stack con enfoque en Front-End (Angular, TypeScript y Tailwind CSS) y diseño web. Experiencia en migración de versiones, gestión de CMS (WordPress) y uso de Figma para diseño de interfaces. Conocimientos complementarios en Back-End (Java, Python y Firebase)';
@@ -153,6 +156,23 @@ export class ResultsPage implements OnInit {
       tab: 'Proyectos',
       actions: [
         { label: 'GitHub', href: 'https://github.com/Antoniomorales17/cabo-indalo' },
+      ],
+    },
+    {
+      title: 'AlmeriaFoodMap',
+      displayUrl: '',
+      href: 'https://almeriafoodmap.onrender.com',
+      snippet: 'App web para encontrar y filtrar restaurantes en Almeria con Google Maps, filtros por categoria y rango de precios.',
+      tab: 'Proyectos',
+      details: [
+        'Frontend: TailwindCSS.',
+        'Backend: Django y Django REST Framework.',
+        'Base de datos: SQLite.',
+        'API: Google Maps API.',
+        'Despliegue en Render.',
+      ],
+      actions: [
+        { label: 'GitHub', href: 'https://github.com/Antoniomorales17/AlmeriaFoodMap' },
       ],
     },
     {
@@ -379,6 +399,13 @@ readonly expertiseAreas = ['Angular', 'Tailwind', 'Figma', 'WordPress', 'Firebas
       href: 'https://www.caboindalo.es/es',
     },
     {
+      title: 'AlmeriaFoodMap',
+      category: 'Frontend',
+      summary: 'App web para encontrar y filtrar restaurantes en Almeria con Google Maps.',
+      stack: 'Django, Python, TailwindCSS, Google Maps API',
+      href: 'https://almeriafoodmap.onrender.com',
+    },
+    {
       title: 'JobCompany',
       category: 'Backend',
       summary: 'Gestion de empleados con Java, SQL y JPA.',
@@ -438,6 +465,24 @@ readonly expertiseAreas = ['Angular', 'Tailwind', 'Figma', 'WordPress', 'Firebas
       const tabParam = params.get('tab');
       this.activeTab = this.isValidTab(tabParam) ? tabParam : 'Todo';
     });
+    this.loadThumbnails();
+  }
+
+  private async loadThumbnails(): Promise<void> {
+    const projectResults = this.searchResults.filter((r) => r.tab === 'Proyectos' && r.href);
+    for (const result of projectResults) {
+      try {
+        const resp = await fetch(
+          `https://api.microlink.io/?url=${encodeURIComponent(result.href!)}&screenshot=true&meta=false`,
+        );
+        const json = await resp.json();
+        if (json?.data?.screenshot?.url) {
+          this.projectThumbnails.set(result.title, json.data.screenshot.url);
+        }
+      } catch {
+        /* thumbnail unavailable */
+      }
+    }
   }
 
   get filteredResults(): SearchResult[] {
