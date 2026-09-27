@@ -1,214 +1,464 @@
 <div class="min-h-screen bg-white px-4 py-6 text-[#202124] sm:px-8">
-  <section class="search-shell mx-auto w-full max-w-6xl ">
-    <header class=" px-4 py-3 sm:px-6">
+  <section class="shell mx-auto w-full max-w-6xl">
+    <header class="px-2 py-3 sm:px-4">
       <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
-        <a [routerLink]="['/']" class="google-word mx-auto border-0 bg-transparent p-0 text-2xl font-semibold sm:mx-0" aria-label="Volver al inicio">
-          <span class="g-blue">A</span><span class="g-red">n</span><span class="g-yellow">t</span><span class="g-blue">o</span><span class="g-green">n</span><span class="g-red">i</span><span class="g-yellow">o</span>
+        <a
+          routerLink="/"
+          class="mx-auto text-2xl font-semibold tracking-tight sm:mx-0"
+          aria-label="Volver al inicio"
+        >
+          <span class="text-[#4285f4]">A</span><span class="text-[#db4437]">n</span
+          ><span class="text-[#f4b400]">t</span><span class="text-[#4285f4]">o</span
+          ><span class="text-[#0f9d58]">n</span><span class="text-[#db4437]">i</span
+          ><span class="text-[#f4b400]">o</span>
         </a>
 
-        <div class="search-pill flex w-full items-center rounded-full border border-[#dfe1e5] px-4 py-2.5 sm:min-w-[260px] sm:flex-1">
-          <svg class="h-4 w-4 text-[#9aa0a6]" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M11 18a7 7 0 1 1 4.95-2.05L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        <div
+          class="search-pill flex w-full items-center rounded-full border border-[#dfe1e5] px-4 py-2.5 sm:flex-1"
+        >
+          <svg
+            class="h-4 w-4 shrink-0 text-[#9aa0a6]"
+            viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M11 18a7 7 0 1 1 4.95-2.05L21 21"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
           </svg>
-          <span class="ml-3 text-xs text-[#5f6368] sm:text-sm">Antonio Morales portfolio</span>
+          <input
+            type="search"
+            class="ml-3 w-full min-w-0 border-0 bg-transparent text-sm text-[#202124] outline-none placeholder:text-[#9aa0a6] sm:text-base"
+            placeholder="Busca por proyecto o tecnologia: Angular, Java, Figma..."
+            aria-label="Buscar en el portfolio"
+            [value]="query()"
+            (input)="onQueryInput($any($event.target).value)"
+          />
+          @if (query()) {
+            <button
+              type="button"
+              class="search-clear"
+              aria-label="Limpiar busqueda"
+              (click)="onQueryInput('')"
+            >
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path
+                  d="M6 6l12 12M18 6L6 18"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </button>
+          }
         </div>
 
-        <div class="top-actions flex w-full flex-wrap items-center justify-center gap-2 text-xs sm:ml-auto sm:w-auto sm:flex-nowrap sm:justify-end sm:text-sm">
-          @for (item of topRightActions; track item.label) {
+        <div
+          class="flex w-full flex-wrap items-center justify-center gap-2 text-xs sm:ml-auto sm:w-auto sm:flex-nowrap sm:justify-end sm:text-sm"
+        >
+          <a
+            routerLink="/resultados"
+            [queryParams]="{ tab: 'Contacto' }"
+            class="rounded-full border border-[#1a73e8] bg-[#1a73e8] px-3 py-1.5 text-white transition hover:bg-[#1765cc]"
+          >
+            Contacto
+          </a>
+          @for (link of profileLinks; track link.label) {
             <a
-              [href]="item.href"
-              [attr.download]="item.download ? '' : null"
-              [attr.target]="isExternalLink(item.href) ? '_blank' : null"
-              [attr.rel]="isExternalLink(item.href) ? 'noopener noreferrer' : null"
-              class="top-action rounded-full border border-[#dadce0] px-3 py-1.5 text-[#3c4043]"
+              [href]="link.href"
+              [attr.download]="link.download ? '' : null"
+              [attr.target]="link.external ? '_blank' : null"
+              [attr.rel]="link.external ? 'noopener noreferrer' : null"
+              class="rounded-full border border-[#dadce0] px-3 py-1.5 text-[#3c4043] transition hover:-translate-y-0.5 hover:border-[#d2e3fc] hover:bg-[#f6fafe]"
             >
-              {{ item.label }}
+              {{ link.label }}
             </a>
           }
         </div>
       </div>
 
-      <nav class="mt-4 text-xs text-[#5f6368] sm:text-sm" aria-label="Filtros del portfolio">
+      <nav class="mt-4 text-xs text-[#5f6368] sm:text-sm" aria-label="Secciones del portfolio">
         <div class="tab-list">
-          @for (tab of navTabs; track tab) {
-            <button type="button" class="tab-button" [class.tab-button-active]="isTabActive(tab)" (click)="selectTab(tab)">
+          @for (tab of sectionTabs; track tab) {
+            <button
+              type="button"
+              class="tab-button"
+              [class.tab-button-active]="isTabActive(tab)"
+              (click)="selectTab(tab)"
+            >
               {{ tab }}
             </button>
           }
         </div>
       </nav>
-      <div class=" border-b border-[#dfe1e5]"></div>
+
+      @if (showsProjects()) {
+        <div
+          class="mt-3 flex flex-col gap-1.5 sm:flex-row sm:items-baseline sm:gap-3"
+          aria-label="Filtros por tecnologia"
+        >
+          <span class="shrink-0 text-[11px] font-medium uppercase tracking-wide text-[#5f6368]"
+            >Tecnologia</span
+          >
+          <div class="flex flex-wrap gap-1.5">
+            @for (tech of allTechs(); track tech) {
+              <button
+                type="button"
+                class="chip"
+                [class.chip-active]="isTechSelected(tech)"
+                [attr.aria-pressed]="isTechSelected(tech)"
+                (click)="toggleTech(tech)"
+              >
+                {{ tech }}
+              </button>
+            }
+          </div>
+        </div>
+      }
+
+      <div class="border-b border-[#dfe1e5]"></div>
     </header>
 
-    <div class="grid gap-6 p-4 sm:p-6 lg:grid-cols-[minmax(0,1.5fr)_minmax(310px,0.8fr)]">
-      <main class="space-y-5" aria-live="polite">
-        <p class="text-xs text-[#5f6368] sm:text-sm">Aproximadamente {{ filteredResults.length }} resultados (0.24 segundos)</p>
+    <app-contact-dialog #contactDialog />
 
-        <article class="premium-card rounded-xl border border-[#e8eaed] bg-[#f8f9fa] p-4">
-          <p class="text-xs font-medium uppercase tracking-wide text-[#5f6368] sm:text-sm">Descripcion principal</p>
-          <p class="mt-2 text-sm leading-relaxed text-[#4d5156]">{{ profileSummary }}</p>
-        </article>
-
-        @for (result of filteredResults; track result.title) {
-          <article class="result-item flex gap-4 rounded-lg border border-transparent p-2">
-            @if (result.tab === 'Proyectos') {
-              <div class="order-last hidden shrink-0 sm:block">
-                @if (projectThumbnails.get(result.title)) {
-                  <img
-                    [src]="projectThumbnails.get(result.title)"
-                    [alt]="'Captura de ' + result.title"
-                    class="h-24 w-36 rounded-lg border border-[#dadce0] object-cover"
-                    loading="lazy"
-                  />
-                } @else {
-                  <div class="h-24 w-36 animate-pulse rounded-lg border border-[#dadce0] bg-[#f1f3f4]"></div>
-                }
-              </div>
+    <div class="grid gap-6 p-2 pt-5 sm:p-4 lg:grid-cols-[minmax(0,1.6fr)_minmax(300px,0.75fr)]">
+      <main class="min-w-0">
+        <h1 class="sr-only">{{ profile.name }} - {{ profile.role }}</h1>
+        <div class="mb-2 flex items-center justify-between gap-3">
+          <p class="text-xs text-[#5f6368] sm:text-sm" aria-live="polite">
+            {{ visibleCount() }} {{ visibleCount() === 1 ? 'resultado' : 'resultados' }}
+            @if (hasActiveFilters()) {
+              <span class="text-[#1a73e8]">con los filtros activos</span>
             }
-            <div class="min-w-0 flex-1">
-              <p class="text-xs text-[#188038] sm:text-sm">{{ result.displayUrl }}</p>
-
-              @if (result.href) {
-                <h2 class="mt-1 text-lg leading-snug text-[#1a0dab] sm:text-xl">
-                  <a [href]="getResultHref(result.href)" target="_blank" rel="noopener noreferrer" class="hover:underline">{{ result.title }}</a>
-                </h2>
-              } @else {
-                <h2 class="mt-1 text-lg  leading-snug text-[#1a0dab] sm:text-xl">{{ result.title }}</h2>
-              }
-
-              @if (result.meta) {
-                <p class="mt-1 text-xs font-medium text-[#5f6368] sm:text-sm">{{ result.meta }}</p>
-              }
-
-              <p class="mt-1 text-sm leading-relaxed text-[#4d5156]">{{ result.snippet }}</p>
-
-              @if (result.actions?.length) {
-                <div class="mt-3 flex flex-wrap gap-2">
-                  @for (action of result.actions; track action.label) {
-                    <a
-                      [href]="action.href"
-                      (click)="onActionClick($event, action)"
-                      [attr.download]="action.download ? '' : null"
-                      [attr.target]="isExternalLink(action.href) ? '_blank' : null"
-                      [attr.rel]="isExternalLink(action.href) ? 'noopener noreferrer' : null"
-                      class="rounded-full border border-[#dadce0] px-3 py-1 text-xs font-semibold text-[#1a73e8] transition hover:border-[#1a73e8]"
-                    >
-                      {{ action.label }}
-                    </a>
-                  }
-                </div>
-              }
-
-              @if (result.details?.length) {
-                <ul class="mt-2 list-disc space-y-1 pl-5 text-sm text-[#4d5156]">
-                  @for (item of result.details; track item) {
-                    <li>{{ item }}</li>
-                  }
-                </ul>
-              }
-            </div>
-          </article>
-        }
-
-        <section class="rounded-xl border border-[#e6ebf2] bg-white p-4 sm:p-5">
-          <h3 class="text-2xl text-[#202124]">Latest from portfolio</h3>
-          <div class="mt-4 grid gap-3 sm:grid-cols-2">
-            @for (project of featuredProjects; track project.title) {
-              <article class="feed-card rounded-xl border border-[#e8eaed] bg-[#f8faff] p-4">
-                @if (projectThumbnails.get(project.title)) {
-                  <img
-                    [src]="projectThumbnails.get(project.title)"
-                    [alt]="'Captura de ' + project.title"
-                    class="mb-3 h-32 w-full rounded-lg border border-[#dadce0] object-cover"
-                    loading="lazy"
-                  />
-                }
-                <p class="text-xs font-semibold uppercase tracking-wide text-[#1a73e8]">{{ project.category }}</p>
-                <h4 class="mt-1 text-lg font-medium text-[#202124]">{{ project.title }}</h4>
-                <p class="mt-1 text-sm text-[#4d5156]">{{ project.summary }}</p>
-                <p class="mt-2 text-xs text-[#5f6368]">{{ project.stack }}</p>
-                <a [href]="project.href" target="_blank" rel="noopener noreferrer" class="mt-3 inline-flex text-sm font-semibold text-[#1a73e8] hover:underline">
-                  Ver proyecto
-                </a>
-              </article>
-            }
-          </div>
-        </section>
-
-        <section class="google-paa mt-2 p-4 sm:p-5">
-          <h4 class="google-paa-title font-medium">People also ask</h4>
-          <div class="mt-3">
-            @for (item of quickQuestions; track item.question) {
-              <details class="google-paa-item group">
-                <summary class="google-paa-summary">
-                  <span class="google-paa-question">
-                    <span class="">{{ item.question }}</span>
-                    <span class="google-paa-icon" aria-hidden="true">&#9662;</span>
-                  </span>
-                </summary>
-                <p class="google-paa-answer">{{ item.answer }}</p>
-              </details>
-            }
-          </div>
-        </section>
-
-        @if (clipboardNotice) {
-          <p class="rounded-lg border border-[#d2e3fc] bg-[#e8f0fe] px-3 py-2 text-sm text-[#1a73e8]">
-            {{ clipboardNotice }}
           </p>
-        }
-
-       
-      </main>
-
-      <aside class="knowledge-panel h-fit rounded-xl border border-[#d8dee7] bg-[#fafbff]">
-        <div class="relative h-56 overflow-hidden rounded-t-xl">
-          <div class="absolute inset-0 bg-gradient-to-br from-[#dfe9ff] via-[#edf3ff] to-[#f5f8ff]"></div>
-          <img src="/antonio-profile.jpeg" alt="Retrato de Antonio Morales" class="relative z-10 h-full w-full object-cover opacity-90" loading="lazy" />
+          @if (hasActiveFilters()) {
+            <button
+              type="button"
+              class="shrink-0 rounded-full border border-[#dadce0] px-3 py-1 text-xs text-[#1a73e8] transition hover:border-[#1a73e8] hover:bg-[#f6fafe]"
+              (click)="clearFilters()"
+            >
+              Limpiar filtros
+            </button>
+          }
         </div>
 
-        <div class="space-y-5 p-4">
+        @if (showsProjects()) {
+          @if (featuredProjects().length) {
+            <section class="mt-5" aria-labelledby="featured-heading">
+              <h2 id="featured-heading" class="text-xl font-medium">Proyectos destacados</h2>
+              <p class="mt-0.5 text-sm text-[#5f6368]">
+                Los que mejor resumen lo que hago y con que tecnologias
+              </p>
+              <div class="mt-3 grid gap-4 sm:grid-cols-2">
+                @for (project of featuredProjects(); track project.slug) {
+                  <app-project-card
+                    [project]="project"
+                    [kindLabels]="kindLabels"
+                    (imageError)="onThumbnailError($event)"
+                  />
+                }
+              </div>
+            </section>
+          }
+
+          @if (otherProjects().length) {
+            <section class="mt-7" aria-labelledby="other-heading">
+              <h2 id="other-heading" class="text-xl font-medium">
+                {{ featuredProjects().length ? 'Resto de proyectos' : 'Proyectos' }}
+              </h2>
+              <p class="mt-0.5 text-sm text-[#5f6368]">
+                {{ otherProjects().length }} en total. Pulsa <em>Resumen</em> para ver el detalle.
+              </p>
+              <div class="mt-2 border-t border-[#f1f3f4] pt-1">
+                @for (project of otherProjects(); track project.slug) {
+                  <app-project-row
+                    [project]="project"
+                    [kindLabels]="kindLabels"
+                    (imageError)="onThumbnailError($event)"
+                  />
+                }
+              </div>
+            </section>
+          }
+
+          @if (!filteredProjects().length) {
+            <section class="mt-5 rounded-xl border border-[#e8eaed] bg-[#f8f9fa] p-6 text-center">
+              <p class="text-base font-medium">Sin resultados para tu busqueda</p>
+              <p class="mt-1 text-sm text-[#5f6368]">
+                Prueba con otra tecnologia (Angular, Java, Tailwind, Figma) o quita los filtros.
+              </p>
+              <button
+                type="button"
+                class="mt-3 rounded-full border border-[#1a73e8] px-3 py-1 text-xs text-[#1a73e8] transition hover:bg-[#f6fafe]"
+                (click)="clearFilters()"
+              >
+                Limpiar filtros
+              </button>
+            </section>
+          }
+        }
+
+        @if (showsExperience()) {
+          <section class="mt-7" aria-labelledby="experience-heading">
+            <h2 id="experience-heading" class="text-xl font-medium">Experiencia</h2>
+            <p class="mt-0.5 text-sm text-[#5f6368]">
+              Trayectoria en empresas de producto digital y analisis de mercado.
+            </p>
+            <div class="mt-3 grid gap-3">
+              @for (item of filteredExperience(); track item.id) {
+                <article class="rounded-xl border border-[#e8eaed] bg-white p-4">
+                  <div class="flex flex-wrap justify-between gap-2">
+                    <div>
+                      <h3 class="text-lg font-medium">{{ item.company }}</h3>
+                      <p class="text-sm text-[#1a73e8]">{{ item.role }}</p>
+                    </div>
+                    <p class="text-right text-xs text-[#5f6368]">
+                      {{ item.period }}<br /><span class="text-[#80868b]">{{ item.location }}</span>
+                    </p>
+                  </div>
+                  <p class="mt-2 text-sm leading-relaxed text-[#4d5156]">{{ item.summary }}</p>
+                  <ul class="mt-2 grid list-disc gap-1 pl-5 text-sm leading-relaxed text-[#4d5156]">
+                    @for (highlight of item.highlights; track highlight) {
+                      <li>{{ highlight }}</li>
+                    }
+                  </ul>
+                  <ul class="mt-3 flex flex-wrap gap-1.5" aria-label="Tecnologias">
+                    @for (tech of item.stack; track tech) {
+                      <li class="tag">{{ tech }}</li>
+                    }
+                  </ul>
+                </article>
+              }
+              @if (!filteredExperience().length) {
+                <p class="text-sm text-[#5f6368]">Ninguna experiencia coincide con tu busqueda.</p>
+              }
+            </div>
+          </section>
+        }
+
+        @if (showsEducation()) {
+          <section class="mt-7" aria-labelledby="education-heading">
+            <h2 id="education-heading" class="text-xl font-medium">Formacion</h2>
+            <p class="mt-0.5 text-sm text-[#5f6368]">
+              Titulacion y formacion tecnica especializada.
+            </p>
+            <div class="mt-3 grid gap-3">
+              @for (item of filteredEducation(); track item.id) {
+                <article class="rounded-xl border border-[#e8eaed] bg-white p-4">
+                  <div class="flex flex-wrap justify-between gap-2">
+                    <div>
+                      <h3 class="text-lg font-medium">{{ item.title }}</h3>
+                      <p class="text-sm text-[#1a73e8]">{{ item.school }}</p>
+                    </div>
+                    <p class="text-right text-xs text-[#5f6368]">
+                      {{ item.period }}<br /><span class="text-[#80868b]">{{ item.mode }}</span>
+                    </p>
+                  </div>
+                  <p class="mt-2 text-sm leading-relaxed text-[#4d5156]">{{ item.summary }}</p>
+                </article>
+              }
+              @if (!filteredEducation().length) {
+                <p class="text-sm text-[#5f6368]">Ninguna formacion coincide con tu busqueda.</p>
+              }
+            </div>
+          </section>
+        }
+
+        @if (showsSkills()) {
+          <section class="mt-7" aria-labelledby="skills-heading">
+            <h2 id="skills-heading" class="text-xl font-medium">Stack tecnico</h2>
+            <p class="mt-0.5 text-sm text-[#5f6368]">
+              Tecnologias y herramientas que uso a diario.
+            </p>
+            <div class="mt-3 grid gap-3 sm:grid-cols-2">
+              @for (group of filteredSkillGroups(); track group.label) {
+                <article class="rounded-xl border border-[#e8eaed] bg-white p-4">
+                  <h3 class="text-base font-medium">{{ group.label }}</h3>
+                  <ul class="mt-2 flex flex-wrap gap-1.5">
+                    @for (tech of group.items; track tech) {
+                      <li class="tag">{{ tech }}</li>
+                    }
+                  </ul>
+                </article>
+              }
+              @if (!filteredSkillGroups().length) {
+                <p class="text-sm text-[#5f6368]">Ninguna tecnologia coincide con tu busqueda.</p>
+              }
+            </div>
+          </section>
+        }
+
+        @if (showsContact()) {
+          <section class="mt-7" aria-labelledby="contact-heading">
+            <h2 id="contact-heading" class="text-xl font-medium">Contacto</h2>
+            <p class="mt-0.5 text-sm text-[#5f6368]">
+              {{ profile.availability }}. Respondo en menos de 24 horas.
+            </p>
+            <div class="mt-3 rounded-xl border border-[#d2e3fc] bg-[#f8faff] p-4">
+              <div class="grid gap-3 sm:grid-cols-2">
+                <div>
+                  <p class="text-[11px] uppercase tracking-wide text-[#5f6368]">Email</p>
+                  <a
+                    class="break-words text-sm text-[#1a73e8] hover:underline"
+                    [href]="'mailto:' + profile.email"
+                    (click)="onLinkClick($event, 'mailto:' + profile.email)"
+                    >{{ profile.email }}</a
+                  >
+                </div>
+                <div>
+                  <p class="text-[11px] uppercase tracking-wide text-[#5f6368]">Telefono</p>
+                  <a
+                    class="text-sm text-[#1a73e8] hover:underline"
+                    [href]="profile.phoneHref"
+                    (click)="onLinkClick($event, profile.phoneHref)"
+                    >{{ profile.phone }}</a
+                  >
+                </div>
+                <div>
+                  <p class="text-[11px] uppercase tracking-wide text-[#5f6368]">Ciudad</p>
+                  <p class="text-sm text-[#3c4043]">{{ profile.location }}</p>
+                </div>
+                <div>
+                  <p class="text-[11px] uppercase tracking-wide text-[#5f6368]">LinkedIn</p>
+                  <a
+                    class="text-sm text-[#1a73e8] hover:underline"
+                    [href]="profile.linkedin"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >Ver perfil</a
+                  >
+                </div>
+              </div>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <button type="button" class="cta-button" (click)="contactDialog.open()">
+                  Contactar
+                </button>
+                <a class="cta-secondary" [href]="profile.cv" download>Descargar CV</a>
+                <a
+                  class="cta-secondary"
+                  [href]="profile.github"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >GitHub</a
+                >
+              </div>
+            </div>
+          </section>
+        }
+
+        @if (activeTab() === 'Todo') {
+          <section class="mt-7" aria-labelledby="paa-heading">
+            <h2 id="paa-heading" class="paa-title font-medium">People also ask</h2>
+            <div class="mt-1">
+              @for (item of quickQuestions; track item.question) {
+                <details class="border-b border-[#dadce0] last:border-b-0">
+                  <summary class="paa-summary">
+                    <span class="flex items-center justify-between gap-3 leading-snug">
+                      <span>{{ item.question }}</span>
+                      <span class="paa-icon" aria-hidden="true">&#9662;</span>
+                    </span>
+                  </summary>
+                  <p class="mb-3 pr-10 text-sm leading-relaxed text-[#4d5156]">{{ item.answer }}</p>
+                </details>
+              }
+            </div>
+          </section>
+        }
+      </main>
+
+      <aside
+        class="knowledge-panel h-fit overflow-hidden rounded-xl border border-[#d8dee7] bg-[#fafbff]"
+      >
+        <div class="relative h-52 overflow-hidden">
+          <div
+            class="absolute inset-0 bg-gradient-to-br from-[#dfe9ff] via-[#edf3ff] to-[#f5f8ff]"
+          ></div>
+          <img
+            src="/antonio-profile.jpeg"
+            [alt]="'Retrato de ' + profile.name"
+            class="relative z-10 h-full w-full object-cover opacity-90"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+
+        <div class="space-y-4 p-4">
           <div>
-            
-            <h3 class="mt-1 text-3xl leading-tight text-[#202124]">Antonio Morales</h3>
-            <p class="mt-1 text-sm text-[#5f6368]">Programador Full Stack</p>
+            <h2 class="text-2xl leading-tight">{{ profile.name }}</h2>
+            <p class="mt-1 text-sm text-[#5f6368]">{{ profile.role }}</p>
+            <p
+              class="mt-2 inline-flex items-center gap-2 rounded-full border border-[#b7e0c2] bg-[#e6f4ea] px-2.5 py-1 text-xs font-medium text-[#137333]"
+            >
+              <span class="h-1.5 w-1.5 rounded-full bg-[#137333]" aria-hidden="true"></span>
+              {{ profile.availability }}
+            </p>
           </div>
 
           <div class="grid grid-cols-3 gap-2">
-            @for (stat of profileStats; track stat.label) {
-              <article class="rounded-lg border border-[#e1e6ef] bg-white px-2 py-2 text-center">
-                <p class="text-sm font-semibold text-[#202124]">{{ stat.value }}</p>
-                <p class="mt-1 text-[10px] uppercase tracking-wide text-[#5f6368]">{{ stat.label }}</p>
-              </article>
-            }
+            <article class="rounded-lg border border-[#e1e6ef] bg-white px-2 py-2 text-center">
+              <p class="text-sm font-semibold">{{ profile.yearsOfExperience }}</p>
+              <p class="mt-0.5 text-[10px] uppercase tracking-wide text-[#5f6368]">Años exp.</p>
+            </article>
+            <article class="rounded-lg border border-[#e1e6ef] bg-white px-2 py-2 text-center">
+              <p class="text-sm font-semibold">{{ profile.completedProjects }}</p>
+              <p class="mt-0.5 text-[10px] uppercase tracking-wide text-[#5f6368]">Proyectos</p>
+            </article>
+            <article class="rounded-lg border border-[#e1e6ef] bg-white px-2 py-2 text-center">
+              <p class="text-sm font-semibold">{{ profile.mainStack }}</p>
+              <p class="mt-0.5 text-[10px] uppercase tracking-wide text-[#5f6368]">Stack</p>
+            </article>
           </div>
 
+          <button
+            type="button"
+            class="cta-button w-full justify-center"
+            (click)="contactDialog.open()"
+          >
+            Contactar
+          </button>
+          <a class="cta-secondary w-full justify-center" [href]="profile.cv" download
+            >Descargar CV</a
+          >
+
           <dl class="space-y-2 text-sm text-[#3c4043]">
-            @for (item of highlights; track item.label) {
-              <div class="grid grid-cols-[94px_1fr] gap-2">
-                <dt class="font-medium text-[#5f6368]">{{ item.label }}</dt>
-                <dd>
-                  @if (item.href) {
-                    <a [href]="item.href" class="text-[#1a73e8] hover:underline">{{ item.value }}</a>
-                  } @else {
-                    {{ item.value }}
-                  }
-                </dd>
-              </div>
-            }
+            <div class="grid grid-cols-[80px_1fr] gap-2">
+              <dt class="font-medium text-[#5f6368]">Email</dt>
+              <dd class="min-w-0 break-words">
+                <a
+                  class="text-[#1a73e8] hover:underline"
+                  [href]="'mailto:' + profile.email"
+                  (click)="onLinkClick($event, 'mailto:' + profile.email)"
+                  >{{ profile.email }}</a
+                >
+              </dd>
+            </div>
+            <div class="grid grid-cols-[80px_1fr] gap-2">
+              <dt class="font-medium text-[#5f6368]">Ciudad</dt>
+              <dd>{{ profile.location }}</dd>
+            </div>
+            <div class="grid grid-cols-[80px_1fr] gap-2">
+              <dt class="font-medium text-[#5f6368]">LinkedIn</dt>
+              <dd>
+                <a
+                  class="text-[#1a73e8] hover:underline"
+                  [href]="profile.linkedin"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Ver perfil</a
+                >
+              </dd>
+            </div>
           </dl>
 
           <section class="rounded-lg border border-[#e0e5ee] bg-white p-3">
-            <h4 class="text-sm font-semibold text-[#202124]">Areas clave</h4>
-            <div class="mt-2 flex flex-wrap gap-2">
-              @for (area of expertiseAreas; track area) {
-                <span class="rounded-full bg-[#f1f3f4] px-2.5 py-1 text-xs text-[#5f6368]">{{ area }}</span>
-              }
-            </div>
+            <h3 class="text-sm font-semibold">Especialidad</h3>
+            <p class="mt-1 text-sm text-[#4d5156]">{{ profile.tagline }}</p>
           </section>
         </div>
       </aside>
     </div>
   </section>
 </div>
-

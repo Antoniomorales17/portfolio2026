@@ -1,0 +1,75 @@
+<article class="project-row">
+  <a
+    class="project-thumb"
+    [href]="project().links[0].href"
+    target="_blank"
+    rel="noopener noreferrer"
+    tabindex="-1"
+    aria-hidden="true"
+  >
+    <img
+      [src]="project().thumbnail"
+      alt=""
+      width="720"
+      height="405"
+      loading="lazy"
+      decoding="async"
+      (error)="onError($event)"
+    />
+  </a>
+
+  <div class="project-info">
+    <div class="project-line">
+      <h3 class="project-name">{{ project().title }}</h3>
+      <span class="project-kind" [attr.data-kind]="project().kind">{{
+        kindLabels()[project().kind]
+      }}</span>
+    </div>
+
+    <p class="project-meta">
+      <span>{{ project().period }}</span>
+      <span aria-hidden="true">&middot;</span>
+      <span>{{ project().role }}</span>
+      <span aria-hidden="true">&middot;</span>
+      <span>{{ project().context }}</span>
+    </p>
+
+    <ul class="project-stack" aria-label="Tecnologias">
+      @for (tech of project().stack; track tech) {
+        <li>{{ tech }}</li>
+      }
+    </ul>
+
+    <details class="project-more">
+      <summary>Resumen</summary>
+      <p>{{ project().summary }}</p>
+      <ul>
+        @for (item of project().highlights; track item) {
+          <li>{{ item }}</li>
+        }
+      </ul>
+    </details>
+  </div>
+
+  <div class="project-actions">
+    @for (link of project().links; track link.href) {
+      <a
+        [href]="link.href"
+        target="_blank"
+        rel="noopener noreferrer"
+        [attr.aria-label]="link.label + ' de ' + project().title"
+      >
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            [attr.d]="linkIcons[link.kind]"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        <span>{{ link.label }}</span>
+      </a>
+    }
+  </div>
+</article>

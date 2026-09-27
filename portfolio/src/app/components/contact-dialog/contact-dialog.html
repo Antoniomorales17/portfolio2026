@@ -1,0 +1,69 @@
+<dialog #dialog class="contact-dialog" aria-labelledby="contact-title" (close)="close()">
+  <div class="dialog-body">
+    <header class="dialog-head">
+      <div>
+        <h2 id="contact-title" class="dialog-title">Hablemos</h2>
+        <p class="dialog-sub">{{ profile.availability }} &middot; respondo en menos de 24 horas</p>
+      </div>
+      <button type="button" class="dialog-close" aria-label="Cerrar" (click)="close()">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="M6 6l12 12M18 6L6 18"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+        </svg>
+      </button>
+    </header>
+
+    <div class="channels">
+      <a class="channel" [href]="'mailto:' + profile.email">
+        <span class="channel-label">Email</span>
+        <span class="channel-value">{{ profile.email }}</span>
+      </a>
+      <button type="button" class="channel" (click)="copyEmail()">
+        <span class="channel-label">Copiar email</span>
+        <span class="channel-value">Ctrl+C</span>
+      </button>
+      <a class="channel" [href]="whatsappHref" target="_blank" rel="noopener noreferrer">
+        <span class="channel-label">WhatsApp</span>
+        <span class="channel-value">{{ profile.phone }}</span>
+      </a>
+      <a class="channel" [href]="profile.linkedin" target="_blank" rel="noopener noreferrer">
+        <span class="channel-label">LinkedIn</span>
+        <span class="channel-value">Ver perfil</span>
+      </a>
+      <a class="channel" [href]="profile.github" target="_blank" rel="noopener noreferrer">
+        <span class="channel-label">GitHub</span>
+        <span class="channel-value">Ver repos</span>
+      </a>
+      <a class="channel" [href]="profile.cv" download>
+        <span class="channel-label">CV</span>
+        <span class="channel-value">Descargar PDF</span>
+      </a>
+    </div>
+
+    <label class="message-label" for="contact-message">Escribe tu mensaje (opcional)</label>
+    <textarea
+      id="contact-message"
+      class="message-input"
+      rows="3"
+      placeholder="Hola Antonio, te escribo por..."
+      [value]="message()"
+      (input)="onMessageInput($any($event.target).value)"
+    ></textarea>
+
+    <div class="dialog-actions">
+      <a class="cta-button" [href]="mailtoHref()">Abrir en mi correo</a>
+      <button type="button" class="cta-secondary" (click)="copyMessage()">Copiar mensaje</button>
+      <a class="cta-secondary" [href]="whatsappHref" target="_blank" rel="noopener noreferrer"
+        >Enviar por WhatsApp</a
+      >
+    </div>
+
+    @if (notice()) {
+      <p class="dialog-notice" role="status">{{ notice() }}</p>
+    }
+  </div>
+</dialog>

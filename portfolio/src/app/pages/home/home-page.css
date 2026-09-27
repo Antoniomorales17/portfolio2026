@@ -1,26 +1,5 @@
-.google-word {
-  font-family: 'Roboto', Arial, sans-serif;
-  letter-spacing: -0.02em;
-}
-
-.g-blue {
-  color: #4285f4;
-}
-
-.g-red {
-  color: #db4437;
-}
-
-.g-yellow {
-  color: #f4b400;
-}
-
-.g-green {
-  color: #0f9d58;
-}
-
 .home-hero {
-  animation: fadeUp 320ms ease-out;
+  animation: fadeUp 300ms ease-out;
 }
 
 .top-link {
@@ -29,59 +8,62 @@
   color: #3c4043;
   padding: 0.3rem 0.8rem;
   text-decoration: none;
-  transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .top-link:hover {
   border-color: #d2e3fc;
   background: #f6fafe;
   color: #1a73e8;
-  transform: translateY(-1px);
 }
 
-.top-link:focus-visible {
-  outline: 2px solid #1a73e8;
-  outline-offset: 2px;
+.top-link-primary {
+  border-color: #1a73e8;
+  background: #1a73e8;
+  color: #ffffff;
+}
+
+.top-link-primary:hover {
+  border-color: #1765cc;
+  background: #1765cc;
+  color: #ffffff;
 }
 
 .search-input-wrap {
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-.search-input-wrap:hover {
+.search-input-wrap:focus-within {
   border-color: #c7d6f7;
-  box-shadow: 0 8px 20px rgba(66, 133, 244, 0.1);
+  box-shadow: 0 2px 12px rgba(66, 133, 244, 0.12);
 }
 
 .search-btn {
-  border: 1px solid #f1f3f4;
   border-radius: 9999px;
-  background: #f8f9fa;
+  background: #f1f3f4;
   color: #3c4043;
-  font-size: 0.875rem;
-  font-weight: 500;
-  padding: 0.625rem 1.05rem;
+  font-size: 0.85rem;
+  padding: 0.45rem 1.1rem;
   text-decoration: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .search-btn:hover {
-  border-color: #dadce0;
-  box-shadow: 0 4px 12px rgba(60, 64, 67, 0.14);
-  color: #202124;
+  background: #e8eaed;
   transform: translateY(-1px);
 }
 
-.search-btn:focus-visible {
-  outline: 2px solid #1a73e8;
-  outline-offset: 2px;
+.search-btn-secondary {
+  background: transparent;
+  border: 1px solid #dadce0;
+  color: #1a73e8;
 }
 
-.feature-chip {
-  border: 1px solid #e4e8ef;
-  border-radius: 9999px;
-  background: #ffffff;
-  padding: 0.3rem 0.65rem;
+.search-btn-secondary:hover {
+  border-color: #1a73e8;
+  background: #f6fafe;
 }
 
 @keyframes fadeUp {
@@ -97,11 +79,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .home-hero,
-  .top-link,
-  .search-input-wrap,
-  .search-btn {
+  .home-hero {
     animation: none;
-    transition: none;
+  }
+
+  .search-btn:hover,
+  .top-link:hover {
+    transform: none;
   }
 }

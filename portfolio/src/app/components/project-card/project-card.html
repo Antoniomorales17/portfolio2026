@@ -1,0 +1,81 @@
+<article class="project-card">
+  <a
+    class="project-media"
+    [href]="project().links[0].href"
+    target="_blank"
+    rel="noopener noreferrer"
+    [attr.aria-label]="'Abrir ' + project().title"
+  >
+    <img
+      [src]="project().thumbnail"
+      [alt]="'Captura de ' + project().title"
+      width="720"
+      height="405"
+      loading="lazy"
+      decoding="async"
+      (error)="onError($event)"
+    />
+  </a>
+
+  <div class="project-body">
+    <div class="project-head">
+      <h3 class="project-title">
+        <a [href]="project().links[0].href" target="_blank" rel="noopener noreferrer">{{
+          project().title
+        }}</a>
+      </h3>
+      <span class="project-kind" [attr.data-kind]="project().kind">{{
+        kindLabels()[project().kind]
+      }}</span>
+    </div>
+
+    <p class="project-meta">
+      <span>{{ project().displayUrl }}</span>
+      <span aria-hidden="true">&middot;</span>
+      <span>{{ project().period }}</span>
+    </p>
+
+    <p class="project-role">{{ project().role }} &middot; {{ project().context }}</p>
+
+    <p class="project-summary">{{ project().summary }}</p>
+
+    @if (project().impact; as impact) {
+      <p class="project-impact">
+        <span class="project-impact-value">{{ impact.value }}</span>
+        <span class="project-impact-label">{{ impact.label }}</span>
+      </p>
+    }
+
+    <ul class="project-stack" aria-label="Tecnologias">
+      @for (tech of project().stack; track tech) {
+        <li>{{ tech }}</li>
+      }
+    </ul>
+
+    <details class="project-details">
+      <summary>Que hice en este proyecto</summary>
+      <ul>
+        @for (item of project().highlights; track item) {
+          <li>{{ item }}</li>
+        }
+      </ul>
+    </details>
+
+    <div class="project-links">
+      @for (link of project().links; track link.href) {
+        <a [href]="link.href" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path
+              [attr.d]="linkIcons[link.kind]"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          {{ link.label }}
+        </a>
+      }
+    </div>
+  </div>
+</article>
