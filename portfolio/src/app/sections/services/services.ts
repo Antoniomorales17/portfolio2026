@@ -9,7 +9,7 @@ import { Component } from '@angular/core';
 export class Services {
   protected readonly services = [
     {
-      title: 'Diseno Web y Maquetacion',
+      title: 'Diseño Web y Maquetacion',
       description:
         'Creo experiencias visuales atractivas y funcionales, cuidando usabilidad, jerarquia y detalle.',
     },

@@ -106,7 +106,7 @@ export const KIND_LABELS: Record<ProjectKind, string> = {
 export const PROFILE: Profile = {
   name: 'Antonio Morales',
   role: 'Desarrollador Full Stack',
-  tagline: 'Angular y Java para producto real, con foco en frontend y diseno web',
+  tagline: 'Angular y Java para producto real, con foco en frontend y diseño web',
   summary:
     'Desarrollador Full Stack con 2+ años de experiencia en empresas de producto digital. Trabajo con Angular y TypeScript en frontend, Java y Spring Boot en backend, y Figma para el diseno de interfaces. He九条gado la evolucion de una web oficial de un complejo turistico en produccion y proyectos full stack con autenticacion, bases de datos y despliegue en la nube.',
   availability: 'Disponible para incorporar',
@@ -162,7 +162,6 @@ export const PROJECTS: Project[] = [
       'Django',
       'Django REST Framework',
       'SQLite',
-      'Google Maps API',
       'Tailwind CSS',
     ],
     highlights: [
@@ -179,6 +178,29 @@ export const PROJECTS: Project[] = [
     featured: true,
   },
   {
+    slug: 'kadabra',
+    title: 'Kadabra',
+    kind: 'practica',
+    context: 'Practica realizada en Softteck',
+    period: 'Noviembre 2024 - Actualidad',
+    role: 'Desarrollador Front-End',
+    displayUrl: 'kadabra.netlify.app',
+    summary:
+      'SPA en Angular 19 que simula una tienda basica, con foco en maquetacion, estructura y despliegue.',
+    stack: ['Angular', 'TypeScript', 'Tailwind CSS', 'Netlify'],
+    highlights: [
+      'Estructura de la SPA en Angular 19 y Tailwind CSS.',
+      'Despliegue y configuracion en Netlify.',
+      'Proyecto orientado a maquetacion y organizacion del codigo.',
+    ],
+    thumbnail: '/projects/kadabra.jpg',
+    links: [
+      { label: 'Ver app', href: 'https://kadabra.netlify.app/', kind: 'live' },
+      { label: 'GitHub', href: 'https://github.com/Antoniomorales17/kadabra', kind: 'code' },
+    ],
+    featured: true,
+  },
+  {
     slug: 'santander-app',
     title: 'Santander App FullStack',
     kind: 'practica',
@@ -191,7 +213,7 @@ export const PROJECTS: Project[] = [
     stack: [
       'Angular',
       'TypeScript',
-      'Angular Material',
+      
     ],
     highlights: [
       'Frontend con Angular, TypeScript, Angular Material y Tailwind CSS.',
@@ -202,7 +224,6 @@ export const PROJECTS: Project[] = [
       { label: 'Ver app', href: 'https://santander-inky.vercel.app/', kind: 'live' },
       { label: 'GitHub', href: 'https://github.com/Antoniomorales17/santander', kind: 'code' },
     ],
-    featured: true,
   },
   {
     slug: 'webmentor',
@@ -214,7 +235,7 @@ export const PROJECTS: Project[] = [
     displayUrl: 'Figma',
     summary:
       'Prototipo de formacion digital para personas mayores. El foco del proyecto fue la investigacion UX y el diseño de una interfaz simple para un publico que no es nativo digital.',
-    stack: ['Figma', 'UX Research', 'Prototipado', 'Diseño de interfaz', 'UX'],
+    stack: ['Figma', 'Prototipado', 'Diseño de interfaz', 'UX'],
     highlights: [
       'Entregables de alta y baja fidelidad obtenidos en Figma.',
       'Prototipo navegable y arquitectura de informacion del producto.',
@@ -228,30 +249,8 @@ export const PROJECTS: Project[] = [
         kind: 'design',
       },
     ],
-    featured: true,
   },
-  {
-    slug: 'kadabra',
-    title: 'Kdabra',
-    kind: 'practica',
-    context: 'Practica realizada en Softteck',
-    period: 'Noviembre 2024 - Actualidad',
-    role: 'Desarrollador Front-End',
-    displayUrl: 'kadabra.netlify.app',
-    summary:
-      'SPA en Angular 19 que simula una tienda basica, con foco en maquetacion, estructura y despliegue.',
-    stack: ['Angular 19', 'TypeScript', 'Tailwind CSS', 'Netlify'],
-    highlights: [
-      'Estructura de la SPA en Angular 19 y Tailwind CSS.',
-      'Despliegue y configuracion en Netlify.',
-      'Proyecto orientado a maquetacion y organizacion del codigo.',
-    ],
-    thumbnail: '/projects/kadabra.jpg',
-    links: [
-      { label: 'Ver app', href: 'https://kadabra.netlify.app/', kind: 'live' },
-      { label: 'GitHub', href: 'https://github.com/Antoniomorales17/kadabra', kind: 'code' },
-    ],
-  },
+  
   {
     slug: 'jobcompany',
     title: 'JobCompany',
@@ -310,7 +309,7 @@ export const PROJECTS: Project[] = [
     displayUrl: 'github.com/Antoniomorales17',
     summary:
       'Simulacion de una agencia con reserva de habitaciones y vuelos, resuelta con arquitectura backend en Java y Spring Boot.',
-    stack: ['Java', 'Spring Boot', 'Spring Security', 'JWT', 'JPA', 'Hibernate', 'Testing', 'SQL'],
+    stack: ['Java', 'Spring Boot','JPA', 'Hibernate', 'Testing', 'SQL'],
     highlights: [
       'API REST con Spring Boot para reservas de hotel y vuelos.',
       'Persistencia con JPA e Hibernate sobre SQL.',
@@ -336,7 +335,7 @@ export const PROJECTS: Project[] = [
     displayUrl: 'little-eight.vercel.app',
     summary:
       'Proyecto final del programa Front-End de Meta: aplicacion de reservas en React con consumo de APIs externas.',
-    stack: ['React', 'JavaScript', 'APIs REST'],
+    stack: ['React', 'JavaScript'],
     highlights: [
       'Aplicacion de reservas con React y comunicacion con APIs externas.',
       'Proyecto academico con foco en arquitectura de componentes y experiencia de usuario.',
@@ -391,6 +390,7 @@ export const PROJECTS: Project[] = [
       { label: 'Ver app', href: 'https://juanmogimenez.vercel.app/', kind: 'live' },
       { label: 'GitHub', href: 'https://github.com/Antoniomorales17/Philosophy-App', kind: 'code' },
     ],
+    featured: true,
   },
   {
     slug: 'findeveloper',
@@ -490,7 +490,7 @@ export const PROJECTS: Project[] = [
     displayUrl: 'github.com/Antoniomorales17',
     summary:
       'App de gestion de tickets con IA, con respuestas automaticas en tiempo real y flujo de atencion 24/7.',
-    stack: ['React', 'Python', 'Flask', 'PostgreSQL', 'OpenAI API'],
+    stack: ['React', 'Python', 'Flask', 'PostgreSQL'],
     highlights: [
       'Frontend en React y backend en Python con Flask.',
       'Persistencia de tickets y conversaciones con PostgreSQL.',
